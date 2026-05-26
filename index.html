@@ -1,0 +1,3395 @@
+{\rtf1\ansi\ansicpg932\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="ja">\
+<head>\
+<meta charset="UTF-8">\
+<meta name="viewport" content="width=device-width, initial-scale=1.0">\
+<title>Gmail AI Assistant</title>\
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">\
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@300;400;500&display=swap">\
+<style>\
+/* ================================================================\
+   Gmail AI Assistant - \uc0\u12473 \u12479 \u12452 \u12523 \u12471 \u12540 \u12488 \
+   ================================================================ */\
+:root \{\
+  --blue:      #1a73e8;\
+  --blue-lt:   #e8f0fe;\
+  --blue-dk:   #1557b0;\
+  --text:      #202124;\
+  --sub:       #5f6368;\
+  --border:    #e0e0e0;\
+  --bg:        #f6f8fc;\
+  --white:     #ffffff;\
+  --hover:     #f1f3f4;\
+  --star:      #f4b400;\
+  --green:     #1e8e3e;\
+  --red:       #d93025;\
+  --purple:    #7c3aed;\
+  --purple-lt: #f3e8ff;\
+  --orange:    #ea8600;\
+  --orange-lt: #fef3c7;\
+  --sw:        256px;\
+\}\
+* \{ box-sizing: border-box; margin: 0; padding: 0; \}\
+html,body \{ height: 100%; \}\
+body \{\
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;\
+  background: var(--bg); color: var(--text);\
+  display: flex; flex-direction: column; overflow: hidden; font-size: 14px;\
+\}\
+\
+/* \uc0\u9472 \u9472  \u12488 \u12483 \u12503 \u12496 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.topbar \{\
+  display: flex; align-items: center; height: 64px; padding: 8px 16px; gap: 8px;\
+  background: var(--white); box-shadow: 0 1px 2px rgba(0,0,0,.12);\
+  z-index: 100; flex-shrink: 0;\
+\}\
+.topbar-left \{\
+  display: flex; align-items: center; width: var(--sw); flex-shrink: 0; gap: 4px;\
+\}\
+.logo \{\
+  font-size: 22px; font-weight: 400; color: var(--sub);\
+  cursor: default; display: flex; align-items: center; gap: 2px; margin-left: 4px;\
+\}\
+.search-wrap \{\
+  flex: 1; max-width: 700px; background: #eaf1fb; border-radius: 24px;\
+  display: flex; align-items: center; padding: 0 16px; height: 46px;\
+  transition: background .2s, box-shadow .2s;\
+\}\
+.search-wrap:focus-within \{ background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.2); \}\
+.search-wrap input \{\
+  flex: 1; border: none; background: none; font-size: 16px;\
+  outline: none; color: var(--text);\
+\}\
+.search-wrap .material-icons \{ color: var(--sub); margin-right: 8px; \}\
+.topbar-right \{ display: flex; align-items: center; gap: 4px; margin-left: auto; \}\
+\
+.ibtn \{\
+  width: 40px; height: 40px; border-radius: 50%; border: none; background: none;\
+  cursor: pointer; display: flex; align-items: center; justify-content: center;\
+  color: var(--sub); transition: background .15s; flex-shrink: 0;\
+\}\
+.ibtn:hover \{ background: var(--hover); \}\
+.ibtn .material-icons \{ font-size: 20px; \}\
+\
+.user-wrap \{ position: relative; \}\
+.avatar \{\
+  width: 34px; height: 34px; border-radius: 50%;\
+  background: var(--blue); color: white; cursor: pointer;\
+  display: flex; align-items: center; justify-content: center;\
+  font-size: 14px; font-weight: 600; margin-left: 4px; flex-shrink: 0;\
+  user-select: none; transition: box-shadow .15s;\
+\}\
+.avatar:hover \{ box-shadow: 0 0 0 3px var(--blue-lt); \}\
+\
+.user-dropdown \{\
+  position: absolute; top: calc(100% + 10px); right: 0;\
+  width: 310px; background: white; border-radius: 12px;\
+  box-shadow: 0 6px 20px rgba(0,0,0,.22); z-index: 300;\
+  display: none; flex-direction: column; overflow: hidden;\
+\}\
+.user-dropdown.open \{ display: flex; \}\
+.ud-header \{\
+  display: flex; align-items: center; gap: 12px;\
+  padding: 18px 16px 14px; background: #f8f9fa; border-bottom: 1px solid var(--border);\
+\}\
+.ud-big-av \{\
+  width: 52px; height: 52px; border-radius: 50%;\
+  background: var(--blue); color: white; flex-shrink: 0;\
+  display: flex; align-items: center; justify-content: center;\
+  font-size: 20px; font-weight: 600;\
+\}\
+.ud-info \{ flex: 1; overflow: hidden; \}\
+.ud-name  \{ font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}\
+.ud-email \{ font-size: 12px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}\
+.ud-accounts \{ padding: 6px 0; border-bottom: 1px solid var(--border); \}\
+.ud-acc-item \{\
+  display: flex; align-items: center; gap: 10px;\
+  padding: 8px 16px; cursor: pointer; transition: background .1s;\
+\}\
+.ud-acc-item:hover \{ background: var(--hover); \}\
+.ud-sm-av \{\
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;\
+  display: flex; align-items: center; justify-content: center;\
+  font-size: 13px; font-weight: 600; color: white; background: var(--sub);\
+\}\
+.ud-acc-info \{ flex: 1; overflow: hidden; \}\
+.ud-acc-name  \{ font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}\
+.ud-acc-email \{ font-size: 11px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}\
+.ud-acc-del \{\
+  opacity: 0; width: 24px; height: 24px; border-radius: 50%;\
+  border: none; background: none; cursor: pointer; color: var(--sub);\
+  display: flex; align-items: center; justify-content: center; font-size: 16px;\
+  transition: opacity .1s;\
+\}\
+.ud-acc-item:hover .ud-acc-del \{ opacity: 1; \}\
+.ud-acc-del:hover \{ background: var(--hover); color: var(--red); \}\
+.ud-add-btn \{\
+  display: flex; align-items: center; gap: 10px;\
+  padding: 10px 16px; cursor: pointer; font-size: 13px;\
+  color: var(--blue); border-bottom: 1px solid var(--border);\
+  transition: background .1s;\
+\}\
+.ud-add-btn:hover \{ background: var(--hover); \}\
+.ud-add-btn .material-icons \{ font-size: 20px; \}\
+.ud-add-form \{\
+  padding: 10px 16px 14px; border-bottom: 1px solid var(--border);\
+  display: none; flex-direction: column; gap: 8px;\
+\}\
+.ud-add-form.open \{ display: flex; \}\
+.ud-add-form input \{\
+  border: 1px solid var(--border); border-radius: 6px;\
+  padding: 8px 10px; font-size: 13px; font-family: inherit; outline: none;\
+  transition: border .2s;\
+\}\
+.ud-add-form input:focus \{ border-color: var(--blue); \}\
+.ud-add-form-title \{ font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 2px; \}\
+.ud-add-form-tip \{ font-size: 11px; color: var(--sub); \}\
+.ud-add-form-btns \{ display: flex; gap: 6px; \}\
+.ud-save-btn \{\
+  background: var(--blue); color: white; border: none; border-radius: 4px;\
+  padding: 6px 14px; font-size: 13px; cursor: pointer; flex: 1;\
+\}\
+.ud-save-btn:hover \{ background: var(--blue-dk); \}\
+.ud-cancel-btn \{\
+  background: none; border: 1px solid var(--border); border-radius: 4px;\
+  padding: 6px 14px; font-size: 13px; cursor: pointer; color: var(--sub);\
+\}\
+.ud-cancel-btn:hover \{ background: var(--hover); \}\
+.ud-menu-item \{\
+  display: flex; align-items: center; gap: 10px;\
+  padding: 10px 16px; cursor: pointer; font-size: 13px; transition: background .1s;\
+\}\
+.ud-menu-item:hover \{ background: var(--hover); \}\
+.ud-menu-item .material-icons \{ font-size: 18px; color: var(--sub); \}\
+\
+/* \uc0\u9472 \u9472  \u12513 \u12452 \u12531 \u12524 \u12452 \u12450 \u12454 \u12488  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.main \{ display: flex; flex: 1; overflow: hidden; \}\
+\
+/* \uc0\u9472 \u9472  \u12469 \u12452 \u12489 \u12496 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.sidebar \{\
+  width: var(--sw); flex-shrink: 0; padding: 8px 0; overflow-y: auto;\
+  transition: width .2s;\
+\}\
+.sidebar.col \{ width: 72px; \}\
+.sidebar.col .lbl-name,\
+.sidebar.col .compose-txt \{ display: none; \}\
+.sidebar.col .compose-btn \{ width: 52px; padding: 14px; justify-content: center; margin: 4px auto 12px; \}\
+\
+.compose-btn \{\
+  margin: 4px 8px 12px; padding: 14px 22px;\
+  background: var(--white); border: none; border-radius: 16px; cursor: pointer;\
+  display: flex; align-items: center; gap: 10px;\
+  font-size: 14px; font-weight: 500; color: var(--text);\
+  box-shadow: 0 1px 2px rgba(0,0,0,.1), 0 1px 4px rgba(0,0,0,.08);\
+  width: calc(var(--sw) - 16px); transition: box-shadow .2s;\
+\}\
+.compose-btn:hover \{ box-shadow: 0 1px 4px rgba(0,0,0,.2), 0 2px 8px rgba(0,0,0,.15); \}\
+.compose-btn .material-icons \{ font-size: 22px; \}\
+\
+.lbl \{\
+  display: flex; align-items: center; gap: 12px; padding: 4px 16px 4px 26px;\
+  height: 32px; border-radius: 0 16px 16px 0; margin-right: 16px;\
+  cursor: pointer; user-select: none; transition: background .1s; color: var(--text);\
+\}\
+.lbl:hover \{ background: var(--hover); \}\
+.lbl.active \{ background: var(--blue-lt); font-weight: 700; \}\
+.lbl .material-icons \{ font-size: 20px; color: var(--sub); flex-shrink: 0; \}\
+.lbl.active .material-icons \{ color: var(--text); \}\
+.lbl-name \{ flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; \}\
+.lbl-divider \{ border-top: 1px solid var(--border); margin: 8px 12px; \}\
+\
+.content \{\
+  flex: 1; overflow: hidden; display: flex; flex-direction: column;\
+  background: var(--white); border-radius: 16px 0 0 0; margin: 8px 0 0;\
+\}\
+\
+/* \uc0\u9472 \u9472  \u12473 \u12524 \u12483 \u12489 \u19968 \u35239  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+#listPane \{ flex: 1; overflow: hidden; display: flex; flex-direction: column; \}\
+.list-toolbar \{\
+  display: flex; align-items: center; padding: 0 16px;\
+  height: 48px; border-bottom: 1px solid var(--border); gap: 4px; flex-shrink: 0;\
+\}\
+.list-title \{ font-size: 15px; color: var(--sub); margin-left: 8px; \}\
+.pagination \{ margin-left: auto; display: flex; align-items: center; gap: 4px; \}\
+.pg-range \{ font-size: 12px; color: var(--sub); \}\
+\
+.thread-list \{ flex: 1; overflow-y: auto; \}\
+.t-item \{\
+  display: flex; align-items: center; gap: 8px; padding: 0 16px; height: 52px;\
+  cursor: pointer; border-bottom: 1px solid transparent;\
+  transition: box-shadow .1s; position: relative;\
+\}\
+.t-item:hover \{ box-shadow: 0 2px 6px rgba(0,0,0,.12); z-index: 1; \}\
+.t-item.unread \{ background: var(--white); \}\
+.t-item.read   \{ background: #f6f8fc; \}\
+.t-cb   \{ width: 18px; height: 18px; cursor: pointer; accent-color: var(--blue); flex-shrink: 0; \}\
+.t-star \{ border: none; background: none; cursor: pointer; padding: 2px;\
+  color: #ccc; flex-shrink: 0; transition: color .15s; \}\
+.t-star:hover,.t-star.on \{ color: var(--star); \}\
+.t-star .material-icons \{ font-size: 18px; \}\
+.t-from \{\
+  width: 160px; flex-shrink: 0; font-size: 14px;\
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;\
+\}\
+.t-item.unread .t-from,.t-item.unread .t-subject,.t-item.unread .t-date \{ font-weight: 700; \}\
+.t-mid \{ flex: 1; display: flex; gap: 6px; overflow: hidden; align-items: baseline; \}\
+.t-subject \{\
+  flex-shrink: 0; font-size: 14px; max-width: 320px;\
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;\
+\}\
+.t-snippet \{\
+  color: var(--sub); font-weight: 400; font-size: 13px;\
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;\
+\}\
+.t-count \{ font-size: 12px; color: var(--sub); flex-shrink: 0; \}\
+.t-date  \{ font-size: 12px; color: var(--sub); flex-shrink: 0; white-space: nowrap; margin-left: 4px; \}\
+\
+/* \uc0\u9472 \u9472  \u36820 \u20449 \u12473 \u12486 \u12540 \u12479 \u12473 \u12450 \u12452 \u12467 \u12531 \u65288 \u19968 \u35239 \u34920 \u31034 \u29992 \u65289 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.t-reply-status \{ display: inline-flex; align-items: center; flex-shrink: 0; \}\
+/* \uc0\u36820 \u20449 \u28168 \u12415 : \u32209 \u12398 \u12450 \u12452 \u12467 \u12531  */\
+.t-reply-status.replied \{ color: var(--green); \}\
+.t-reply-status.replied .material-icons \{ font-size: 16px; \}\
+/* \uc0\u36820 \u20449 \u19981 \u35201 : \u12464 \u12524 \u12540 \u12398 \u12450 \u12452 \u12467 \u12531  */\
+.t-reply-status.not-needed \{ color: var(--sub); \}\
+.t-reply-status.not-needed .material-icons \{ font-size: 16px; \}\
+/* \uc0\u26410 \u36820 \u20449 \u65288 \u23550 \u24540 \u12364 \u24517 \u35201 \u65289 : \u12458 \u12524 \u12531 \u12472 \u12398 \u12489 \u12483 \u12488  */\
+.t-reply-status.unreplied \{ color: var(--orange); \}\
+.t-reply-status.unreplied .material-icons \{ font-size: 16px; \}\
+\
+/* \uc0\u9472 \u9472  \u12473 \u12524 \u12483 \u12489 \u35443 \u32048  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+#detailPane \{ flex: 1; overflow: hidden; display: flex; flex-direction: column; \}\
+.detail-toolbar \{\
+  display: flex; align-items: center; gap: 4px; padding: 0 16px;\
+  height: 48px; border-bottom: 1px solid var(--border); flex-shrink: 0;\
+\}\
+.d-subject \{\
+  padding: 14px 60px; font-size: 22px; font-weight: 400;\
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;\
+\}\
+.msgs-area \{ flex: 1; overflow-y: auto; padding: 0 60px 8px; \}\
+\
+/* \uc0\u9472 \u9472  \u12513 \u12483 \u12475 \u12540 \u12472 \u12459 \u12540 \u12489  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.msg-card \{ border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; \}\
+.msg-hd \{\
+  display: flex; align-items: center; gap: 12px;\
+  padding: 12px 16px; cursor: pointer;\
+\}\
+.msg-hd:hover \{ background: var(--hover); \}\
+.msg-av \{\
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;\
+  display: flex; align-items: center; justify-content: center;\
+  font-size: 16px; font-weight: 600; color: white;\
+\}\
+.c0\{background:#1a73e8\}.c1\{background:#34a853\}.c2\{background:#ea4335\}\
+.c3\{background:#fbbc04;color:#333\}.c4\{background:#9c27b0\}.c5\{background:#00acc1\}\
+.c6\{background:#ff7043\}.c7\{background:#43a047\}\
+.msg-meta \{ flex: 1; overflow: hidden; \}\
+.msg-from \{ font-size: 14px; font-weight: 500; \}\
+.msg-to   \{ font-size: 12px; color: var(--sub); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; \}\
+.msg-date \{ font-size: 12px; color: var(--sub); margin-left: auto; white-space: nowrap; flex-shrink: 0; \}\
+.msg-toggle \{ font-size: 18px; color: var(--sub); flex-shrink: 0; \}\
+\
+.msg-body \{ padding: 8px 16px 16px 68px; display: none; overflow: hidden; \}\
+.msg-body.open \{ display: block; \}\
+.email-plain \{\
+  white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word;\
+  font-family: Arial, sans-serif; font-size: 14px; line-height: 1.7; color: var(--text);\
+\}\
+.email-html \{\
+  word-break: break-word; overflow-wrap: break-word; font-size: 14px; line-height: 1.5;\
+\}\
+.email-html img   \{ max-width: 100% !important; height: auto !important; \}\
+.email-html table \{ max-width: 100%; border-collapse: collapse; word-break: break-word; \}\
+.email-html a     \{ color: var(--blue); \}\
+.email-html *     \{ max-width: 100%; \}\
+\
+/* ================================================================\
+   \uc0\u9733  \u26410 \u36820 \u20449 \u12475 \u12463 \u12471 \u12519 \u12531 \
+   ================================================================ */\
+#unrepliedSection \{\
+  flex-shrink: 0;\
+  border-bottom: 1px solid var(--border);\
+  background: #fffbeb;\
+  display: none;\
+\}\
+\
+/* \uc0\u12504 \u12483 \u12480 \u12540 \u34892  */\
+.ur-hd \{\
+  display: flex; align-items: center; gap: 8px;\
+  padding: 8px 16px; cursor: pointer;\
+  font-size: 13px; font-weight: 600; color: #92400e;\
+  user-select: none;\
+  border-bottom: 1px solid transparent;\
+  transition: background .15s;\
+\}\
+.ur-hd:hover \{ background: #fef9c3; \}\
+.ur-hd.has-items \{ border-bottom-color: #fde68a; \}\
+\
+.ur-hd .material-icons \{ font-size: 18px; \}\
+/* \uc0\u20214 \u25968 \u12496 \u12483 \u12472  */\
+.ur-badge \{\
+  background: var(--orange); color: white;\
+  border-radius: 10px; padding: 1px 8px;\
+  font-size: 11px; font-weight: 700; min-width: 22px; text-align: center;\
+\}\
+/* \uc0\u32202 \u24613 \u24230 \u21029 \u12496 \u12483 \u12472  */\
+.ur-badge-crit \{ background: #dc2626; \}\
+.ur-badge-high \{ background: #ea580c; \}\
+.ur-badge-mid  \{ background: var(--orange); \}\
+\
+.ur-chevron \{ margin-left: auto; font-size: 18px; color: var(--sub); transition: transform .2s; \}\
+.ur-chevron.collapsed \{ transform: rotate(-90deg); \}\
+\
+/* \uc0\u25240 \u12426 \u12383 \u12383 \u12415 \u21487 \u33021 \u12456 \u12522 \u12450  */\
+.ur-body \{\
+  max-height: 220px; /* \uc0\u32004 44px \'d7 5\u20214  = 220px \u12391 5\u26528 \u35211 \u12360 \u12427  */\
+  overflow-y: auto;\
+  transition: max-height .25s ease;\
+\}\
+.ur-body.collapsed \{ max-height: 0; overflow: hidden; \}\
+\
+/* \uc0\u21508 \u26410 \u36820 \u20449 \u12450 \u12452 \u12486 \u12512  */\
+.ur-item-cb \{\
+  width: 15px; height: 15px; cursor: pointer;\
+  accent-color: var(--orange); flex-shrink: 0;\
+\}\
+.ur-item \{\
+  display: flex; align-items: center; gap: 10px;\
+  padding: 7px 16px; border-bottom: 1px solid #fde68a;\
+  cursor: pointer; transition: background .1s;\
+  min-height: 44px; /* 1\uc0\u26528 \u12398 \u39640 \u12373 \u12434 \u22266 \u23450  */\
+  box-sizing: border-box;\
+\}\
+.ur-item:last-child \{ border-bottom: none; \}\
+.ur-item:hover \{ background: #fef3c7; \}\
+\
+/* \uc0\u32202 \u24613 \u24230 \u12521 \u12505 \u12523 \u65288 \u24038 \u31471 \u65289  */\
+.ur-urgency \{\
+  font-size: 10px; font-weight: 700; padding: 2px 6px;\
+  border-radius: 4px; flex-shrink: 0; min-width: 78px; text-align: center;\
+  line-height: 1.4;\
+\}\
+.ur-urgency.critical \{ background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; \}\
+.ur-urgency.high     \{ background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; \}\
+.ur-urgency.mid      \{ background: #fef9c3; color: #713f12; border: 1px solid #fde047; \}\
+.ur-urgency.low      \{ background: #f0fdf4; color: #166534; border: 1px solid #86efac; \}\
+\
+/* \uc0\u36865 \u20449 \u32773 \u12539 \u20214 \u21517  */\
+.ur-mid \{ flex: 1; overflow: hidden; \}\
+.ur-from \{\
+  font-size: 13px; font-weight: 600;\
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\
+\}\
+.ur-subj \{\
+  font-size: 12px; color: var(--sub);\
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\
+  margin-top: 1px;\
+\}\
+\
+/* \uc0\u36820 \u20449 \u19981 \u35201 \u12508 \u12479 \u12531  */\
+.ur-skip-btn \{\
+  border: 1px solid #d6b4a0; background: white; cursor: pointer;\
+  color: #92400e; font-size: 11px; padding: 3px 8px;\
+  border-radius: 4px; flex-shrink: 0; white-space: nowrap;\
+  transition: background .1s, color .1s;\
+  display: flex; align-items: center; gap: 3px;\
+\}\
+.ur-skip-btn:hover \{ background: #fef3c7; border-color: var(--orange); color: var(--orange); \}\
+.ur-skip-btn .material-icons \{ font-size: 12px; \}\
+\
+/* \uc0\u12525 \u12540 \u12487 \u12451 \u12531 \u12464 \u12539 \u31354 \u29366 \u24907 \u65288 \u26410 \u36820 \u20449 \u12475 \u12463 \u12471 \u12519 \u12531 \u29992 \u65289  */\
+.ur-loading \{\
+  display: flex; align-items: center; gap: 8px;\
+  padding: 12px 16px; font-size: 12px; color: var(--sub);\
+\}\
+.ur-empty \{ padding: 10px 16px; font-size: 12px; color: var(--sub); \}\
+\
+/* ================================================================\
+   \uc0\u26360 \u24335 \u12484 \u12540 \u12523 \u12496 \u12540 \u12539 \u12467 \u12531 \u12509 \u12540 \u12470 \u12540 \
+   ================================================================ */\
+.fmt-bar \{\
+  display: flex; align-items: center; gap: 2px;\
+  padding: 4px 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap;\
+\}\
+.fmt-btn \{\
+  min-width: 28px; height: 28px; padding: 0 4px;\
+  border: none; background: none; border-radius: 4px;\
+  cursor: pointer; color: var(--text); font-size: 13px;\
+  display: flex; align-items: center; justify-content: center;\
+  transition: background .1s; flex-shrink: 0;\
+\}\
+.fmt-btn:hover \{ background: var(--hover); \}\
+.fmt-btn.active \{ background: var(--blue-lt); color: var(--blue); \}\
+.fmt-btn .material-icons \{ font-size: 17px; \}\
+.fmt-sep \{ color: var(--border); font-size: 18px; padding: 0 2px; user-select: none; \}\
+.fmt-select \{\
+  height: 26px; border: 1px solid var(--border); border-radius: 4px;\
+  font-size: 12px; padding: 0 4px; cursor: pointer; color: var(--text);\
+  background: white; outline: none;\
+\}\
+.fmt-select:hover \{ border-color: var(--sub); \}\
+\
+.attach-list \{ display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 8px; \}\
+.attach-chip \{\
+  display: flex; align-items: center; gap: 4px;\
+  background: #f1f3f4; border-radius: 6px; padding: 4px 8px;\
+  font-size: 12px; color: var(--text); max-width: 200px;\
+\}\
+.attach-chip .material-icons \{ font-size: 15px; color: var(--sub); flex-shrink: 0; \}\
+.attach-chip .chip-name \{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; \}\
+.attach-del \{\
+  background: none; border: none; cursor: pointer;\
+  color: var(--sub); font-size: 14px; padding: 0; flex-shrink: 0; line-height: 1;\
+\}\
+.attach-del:hover \{ color: var(--red); \}\
+\
+.composer \{\
+  border: 1px solid var(--border); border-radius: 8px;\
+  margin: 4px 60px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.1);\
+  flex-shrink: 0; display: flex; flex-direction: column;\
+\}\
+.composer-hd \{\
+  display: flex; align-items: center; justify-content: space-between;\
+  padding: 10px 16px 4px; font-size: 14px; color: var(--sub);\
+\}\
+.comp-editable \{\
+  min-height: 100px; max-height: 280px; overflow-y: auto;\
+  padding: 8px 16px; font-size: 14px; line-height: 1.6;\
+  font-family: Arial, sans-serif; outline: none; word-break: break-word;\
+\}\
+.comp-editable:empty::before \{\
+  content: attr(data-placeholder); color: #9e9e9e; pointer-events: none; display: block;\
+\}\
+.composer-foot \{\
+  display: flex; align-items: center; padding: 8px 16px;\
+  gap: 6px; border-top: 1px solid var(--border); flex-wrap: wrap;\
+\}\
+.send-btn \{\
+  background: var(--blue); color: white; border: none; border-radius: 4px;\
+  padding: 8px 22px; font-size: 14px; font-weight: 500; cursor: pointer;\
+  transition: background .15s;\
+\}\
+.send-btn:hover \{ background: var(--blue-dk); \}\
+.ai-toggle-btn \{\
+  display: inline-flex; align-items: center; gap: 5px;\
+  background: linear-gradient(135deg,#667eea,#764ba2);\
+  color: white; border: none; border-radius: 20px;\
+  padding: 6px 14px; font-size: 12px; font-weight: 500;\
+  cursor: pointer; margin-left: 6px; transition: opacity .15s, transform .1s;\
+\}\
+.ai-toggle-btn:hover \{ opacity: .9; transform: translateY(-1px); \}\
+.ai-toggle-btn .material-icons \{ font-size: 14px; \}\
+\
+/* \uc0\u9472 \u9472  AI \u12497 \u12493 \u12523  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.ai-panel \{\
+  margin: 0 12px 8px; padding: 12px;\
+  border: 1px solid #d8b4fe; border-radius: 8px;\
+  background: linear-gradient(135deg,#fdfbff,#f3e8ff); display: none;\
+\}\
+.ai-panel.open \{ display: block; \}\
+.ai-hd \{\
+  display: flex; align-items: center; gap: 6px;\
+  font-size: 13px; font-weight: 600; color: #5b2d8a; margin-bottom: 10px;\
+\}\
+.ai-hd .material-icons \{ font-size: 17px; color: var(--purple); \}\
+.model-row \{ display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; \}\
+.model-chip \{\
+  padding: 4px 12px; border-radius: 12px; border: 1px solid #c4a0e0;\
+  background: white; font-size: 12px; cursor: pointer; color: #5b2d8a; transition: all .15s;\
+\}\
+.model-chip.on \{ background: var(--purple); color: white; border-color: var(--purple); \}\
+.model-chip:hover:not(.on) \{ background: var(--purple-lt); \}\
+.cost-tag \{\
+  font-size: 10px; padding: 1px 4px; border-radius: 6px; font-weight: 600; vertical-align: middle; margin-left: 3px;\
+\}\
+.cost-lo \{ background: #d1fae5; color: #065f46; \}\
+.cost-md \{ background: #fef3c7; color: #92400e; \}\
+.cost-hi \{ background: #fee2e2; color: #991b1b; \}\
+.ai-req \{\
+  width: 100%; border: 1px solid #c4a0e0; border-radius: 6px;\
+  padding: 8px; font-size: 13px; font-family: inherit;\
+  resize: none; background: white; margin-bottom: 8px; outline: none;\
+\}\
+.ai-req:focus \{ border-color: var(--purple); box-shadow: 0 0 0 2px rgba(124,58,237,.2); \}\
+.ai-gen-btn \{\
+  display: inline-flex; align-items: center; gap: 6px;\
+  background: var(--purple); color: white; border: none; border-radius: 6px;\
+  padding: 7px 16px; font-size: 13px; cursor: pointer; transition: background .15s;\
+\}\
+.ai-gen-btn:hover:not(:disabled) \{ background: #6d28d9; \}\
+.ai-gen-btn:disabled \{ opacity: .6; cursor: not-allowed; \}\
+.ai-gen-btn .material-icons \{ font-size: 15px; \}\
+.ai-result \{\
+  margin-top: 10px; padding: 10px; background: white;\
+  border: 1px solid #c4a0e0; border-radius: 6px;\
+  font-size: 13px; white-space: pre-wrap; line-height: 1.6; display: none;\
+\}\
+.ai-result.show \{ display: block; \}\
+.ai-actions \{ display: none; gap: 8px; margin-top: 8px; \}\
+.ai-actions.show \{ display: flex; \}\
+.use-btn \{\
+  display: inline-flex; align-items: center; gap: 4px;\
+  background: #059669; color: white; border: none; border-radius: 6px;\
+  padding: 6px 14px; font-size: 13px; cursor: pointer;\
+\}\
+.use-btn:hover \{ background: #047857; \}\
+.regen-btn \{\
+  background: white; color: var(--purple); border: 1px solid #c4a0e0;\
+  border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer;\
+\}\
+.regen-btn:hover \{ background: var(--purple-lt); \}\
+\
+/* \uc0\u9472 \u9472  \u12525 \u12540 \u12487 \u12451 \u12531 \u12464  / \u31354 \u29366 \u24907  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.loading \{\
+  display: flex; flex-direction: column; align-items: center;\
+  justify-content: center; padding: 48px; gap: 12px; color: var(--sub);\
+\}\
+.spinner \{\
+  width: 32px; height: 32px; border-radius: 50%;\
+  border: 3px solid var(--border); border-top-color: var(--blue);\
+  animation: spin .7s linear infinite;\
+\}\
+.spinner.sm \{ width: 14px; height: 14px; border-width: 2px; \}\
+@keyframes spin \{ to \{ transform: rotate(360deg); \} \}\
+.empty \{\
+  display: flex; flex-direction: column; align-items: center;\
+  justify-content: center; padding: 60px; color: var(--sub); gap: 10px;\
+\}\
+.empty .material-icons \{ font-size: 64px; color: var(--border); \}\
+\
+/* \uc0\u9472 \u9472  \u35373 \u23450 \u12514 \u12540 \u12480 \u12523  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.overlay \{\
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);\
+  display: none; align-items: center; justify-content: center; z-index: 400;\
+\}\
+.overlay.open \{ display: flex; \}\
+.modal \{\
+  background: white; border-radius: 12px; padding: 24px;\
+  width: 500px; max-width: 92vw;\
+  box-shadow: 0 8px 28px rgba(0,0,0,.25);\
+\}\
+.modal-title \{ font-size: 20px; font-weight: 500; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; \}\
+.modal-section \{ margin-bottom: 16px; \}\
+.modal-lbl \{\
+  font-size: 11px; font-weight: 600; color: var(--sub); text-transform: uppercase;\
+  letter-spacing: .6px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;\
+\}\
+.dot \{ width: 8px; height: 8px; border-radius: 50%; display: inline-block; \}\
+.dot.g \{ background: var(--green); \} .dot.r \{ background: var(--red); \}\
+.modal-input \{\
+  width: 100%; border: 1px solid var(--border); border-radius: 6px;\
+  padding: 10px 12px; font-size: 14px; font-family: monospace; outline: none; transition: border .2s;\
+\}\
+.modal-input:focus \{ border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,115,232,.15); \}\
+.modal-tip \{ font-size: 12px; color: var(--sub); margin-top: 4px; \}\
+.modal-tip a \{ color: var(--blue); \}\
+.cost-info \{\
+  background: #f8f9fa; border-radius: 8px; padding: 12px 14px;\
+  font-size: 12px; color: var(--sub); line-height: 1.7; margin-bottom: 4px;\
+\}\
+.modal-foot \{ display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; \}\
+.modal-cancel \{\
+  background: none; border: none; padding: 8px 16px; font-size: 14px;\
+  cursor: pointer; color: var(--sub); border-radius: 4px;\
+\}\
+.modal-cancel:hover \{ background: var(--hover); \}\
+.modal-save \{\
+  background: var(--blue); color: white; border: none;\
+  border-radius: 4px; padding: 8px 22px; font-size: 14px; cursor: pointer;\
+\}\
+.modal-save:hover \{ background: var(--blue-dk); \}\
+\
+/* \uc0\u9472 \u9472  \u26032 \u35215 \u20316 \u25104 \u12454 \u12451 \u12531 \u12489 \u12454  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.compose-win \{\
+  position: fixed; bottom: 0; right: 24px; width: 544px;\
+  background: white; border-radius: 8px 8px 0 0;\
+  box-shadow: 0 8px 28px rgba(0,0,0,.3); z-index: 500; display: none; flex-direction: column;\
+\}\
+.compose-win.open \{ display: flex; \}\
+.cw-hd \{\
+  background: #404040; color: white; padding: 10px 16px;\
+  border-radius: 8px 8px 0 0;\
+  display: flex; justify-content: space-between; align-items: center; font-size: 14px;\
+\}\
+.cw-field \{ display: flex; align-items: center; border-bottom: 1px solid var(--border); padding: 0 16px; \}\
+.cw-field label \{ font-size: 13px; color: var(--sub); width: 32px; flex-shrink: 0; \}\
+.cw-field input \{\
+  flex: 1; border: none; outline: none; padding: 10px 8px;\
+  font-size: 14px; font-family: inherit;\
+\}\
+.cw-editable \{\
+  min-height: 200px; max-height: 340px; overflow-y: auto;\
+  padding: 8px 16px; font-size: 14px; line-height: 1.6;\
+  font-family: Arial, sans-serif; outline: none; word-break: break-word;\
+\}\
+.cw-editable:empty::before \{\
+  content: attr(data-placeholder); color: #9e9e9e; pointer-events: none; display: block;\
+\}\
+.cw-foot \{\
+  padding: 8px 16px; display: flex; gap: 8px; align-items: center;\
+  border-top: 1px solid var(--border); flex-wrap: wrap;\
+\}\
+.bcc-link \{\
+  font-size: 12px; color: var(--sub); cursor: pointer; flex-shrink: 0;\
+  padding: 0 4px; border-radius: 3px; transition: color .1s;\
+  background: none; border: none;\
+\}\
+.bcc-link:hover \{ color: var(--blue); \}\
+\
+/* \uc0\u9472 \u9472  \u12463 \u12457 \u12540 \u12479 \u12496 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.quota-bar \{\
+  background: rgba(124,58,237,.06); border: 1px solid #d8b4fe;\
+  border-radius: 6px; padding: 7px 10px 6px; margin-bottom: 8px; font-size: 12px;\
+\}\
+.quota-label \{\
+  display: flex; align-items: center; gap: 4px;\
+  color: #5b2d8a; font-weight: 600; margin-bottom: 5px;\
+\}\
+.quota-label span:nth-child(2) \{ flex: 1; \}\
+.quota-refresh-btn \{\
+  background: none; border: none; cursor: pointer; color: var(--sub);\
+  display: flex; align-items: center; padding: 1px; border-radius: 3px; transition: background .1s;\
+\}\
+.quota-refresh-btn:hover \{ background: rgba(0,0,0,.08); \}\
+.quota-track \{ height: 6px; background: #e9d5ff; border-radius: 3px; overflow: hidden; margin-bottom: 4px; \}\
+.quota-fill \{\
+  height: 100%; border-radius: 3px;\
+  background: linear-gradient(90deg, #7c3aed, #a855f7);\
+  transition: width .4s ease, background .3s; width: 0%;\
+\}\
+.quota-fill.warn  \{ background: linear-gradient(90deg, #d97706, #f59e0b); \}\
+.quota-fill.crit  \{ background: linear-gradient(90deg, #dc2626, #ef4444); \}\
+.quota-detail \{ color: var(--sub); font-size: 11px; \}\
+\
+/* \uc0\u9472 \u9472  \u36820 \u20449 \u28168 \u12415 \u12496 \u12483 \u12472 \u65288 \u26087 \u65289  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.t-replied \{ display: inline-flex; align-items: center; color: var(--green); flex-shrink: 0; \}\
+.t-replied .material-icons \{ font-size: 16px; \}\
+\
+/* \uc0\u9472 \u9472  \u12490 \u12499 \u12466 \u12540 \u12471 \u12519 \u12531 \u12475 \u12463 \u12471 \u12519 \u12531  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.nav-section \{\}\
+.nav-section-hd \{\
+  display: flex; align-items: center; gap: 4px;\
+  padding: 6px 16px 2px 16px; cursor: pointer; user-select: none;\
+  font-size: 11px; font-weight: 700; color: var(--sub);\
+  text-transform: uppercase; letter-spacing: .6px;\
+  border-radius: 0 16px 16px 0; margin-right: 16px;\
+  transition: color .15s;\
+\}\
+.nav-section-hd:hover \{ color: var(--text); background: var(--hover); \}\
+.nav-section-hd .sec-chevron \{ font-size: 16px; transition: transform .2s; margin-left: auto; \}\
+.nav-section-hd.collapsed .sec-chevron \{ transform: rotate(-90deg); \}\
+.nav-section-body \{ overflow: hidden; max-height: 800px; transition: max-height .25s ease; \}\
+.nav-section-body.collapsed \{ max-height: 0; \}\
+.sidebar.col .nav-section-hd \{ display: none; \}\
+.sidebar.col .nav-section-body \{ max-height: 2000px !important; \}\
+\
+/* \uc0\u9472 \u9472  \u12521 \u12505 \u12523 \u31649 \u29702 \u12508 \u12479 \u12531  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.lbl-actions \{ opacity: 0; display: flex; gap: 1px; margin-left: auto; flex-shrink: 0; transition: opacity .15s; \}\
+.lbl:hover .lbl-actions \{ opacity: 1; \}\
+.lbl-action-btn \{\
+  width: 22px; height: 22px; border: none; background: none;\
+  cursor: pointer; color: var(--sub); border-radius: 4px;\
+  display: flex; align-items: center; justify-content: center; transition: background .1s;\
+\}\
+.lbl-action-btn:hover \{ background: rgba(0,0,0,.08); color: var(--text); \}\
+.lbl-action-btn .material-icons \{ font-size: 14px; \}\
+/* ================================================================\
+\
+/* \uc0\u9472 \u9472  \u26410 \u35501 \u12496 \u12483 \u12472  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.lbl \{ position: relative; \}\
+.lbl-badge \{\
+  font-size: 11px; font-weight: 700; line-height: 1;\
+  background: var(--blue); color: white;\
+  padding: 2px 7px; border-radius: 10px;\
+  min-width: 20px; text-align: center; margin-left: auto; flex-shrink: 0;\
+\}\
+.sidebar.col .lbl-badge \{\
+  position: absolute; top: 1px; right: 4px;\
+  padding: 0 4px; font-size: 9px; min-width: 14px; border-radius: 7px;\
+\}\
+\
+/* \uc0\u9472 \u9472  \u19968 \u35239 \u12398 \u26082 \u35501 \u12508 \u12479 \u12531  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.t-mark-btn \{\
+  opacity: 0; border: none; background: none; cursor: pointer;\
+  color: var(--sub); padding: 2px; flex-shrink: 0; transition: opacity .15s;\
+\}\
+.t-item:hover .t-mark-btn \{ opacity: 1; \}\
+.t-mark-btn:hover \{ color: var(--blue); \}\
+.t-mark-btn .material-icons \{ font-size: 17px; \}\
+\
+/* \uc0\u9472 \u9472  \u12525 \u12468  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.logo-svg \{ width: 40px; height: auto; max-height: 40px; \}\
+.logo-svg svg \{ width: 100%; height: 100%; \}\
+.logo-text \{ font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -.3px; white-space: nowrap; \}\
+\
+/* \uc0\u9472 \u9472  \u36899 \u32097 \u20808 \u12458 \u12540 \u12488 \u12467 \u12531 \u12503 \u12522 \u12540 \u12488  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.ac-wrap \{ position: relative; flex: 1; display: flex; align-items: center; \}\
+.ac-wrap input \{ width: 100%; \}\
+.ac-dropdown \{\
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;\
+  background: var(--white); border: 1px solid var(--border);\
+  border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,.15);\
+  z-index: 600; max-height: 260px; overflow-y: auto; display: none;\
+\}\
+.ac-dropdown.open \{ display: block; \}\
+.ac-item \{\
+  display: flex; align-items: center; gap: 10px;\
+  padding: 8px 14px; cursor: pointer; transition: background .1s;\
+\}\
+.ac-item:hover, .ac-item.focused \{ background: var(--hover); \}\
+.ac-av \{\
+  width: 30px; height: 30px; border-radius: 50%; background: var(--blue);\
+  color: white; display: flex; align-items: center; justify-content: center;\
+  font-size: 12px; font-weight: 600; flex-shrink: 0;\
+\}\
+.ac-info \{ flex: 1; overflow: hidden; \}\
+.ac-name  \{ font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}\
+.ac-email \{ font-size: 11px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; \}\
+.ac-loading \{ padding: 12px 14px; font-size: 12px; color: var(--sub); display: flex; align-items: center; gap: 8px; \}\
+.ac-empty   \{ padding: 12px 14px; font-size: 12px; color: var(--sub); \}\
+\
+/* \uc0\u9472 \u9472  \u12473 \u12490 \u12483 \u12463 \u12496 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.snack \{\
+  position: fixed; bottom: 24px; left: 50%;\
+  transform: translateX(-50%) translateY(120px);\
+  background: #323232; color: white; padding: 12px 22px; border-radius: 6px;\
+  font-size: 14px; z-index: 2000; transition: transform .3s; white-space: nowrap;\
+  box-shadow: 0 3px 8px rgba(0,0,0,.3);\
+\}\
+.snack.show \{ transform: translateX(-50%) translateY(0); \}\
+\
+/* \uc0\u9472 \u9472  \u12524 \u12473 \u12509 \u12531 \u12471 \u12502  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+@media (max-width: 860px) \{\
+  :root \{ --sw: 72px; \}\
+  .lbl-name \{ display: none; \}\
+  .compose-btn \{ padding: 14px; justify-content: center; width: 52px; margin: 4px auto 12px; \}\
+  .compose-txt \{ display: none; \}\
+  .t-snippet,.t-count \{ display: none; \}\
+  .t-from \{ width: 100px; \}\
+  .msgs-area,.composer \{ margin-left: 12px; margin-right: 12px; \}\
+  .d-subject \{ padding-left: 12px; padding-right: 12px; \}\
+  .compose-win \{ width: 100%; right: 0; border-radius: 0; \}\
+\}\
+\
+/* \uc0\u9472 \u9472  \u12459 \u12524 \u12531 \u12480 \u12540 \u30331 \u37682 \u12497 \u12493 \u12523  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.cal-toggle-btn \{\
+  display: inline-flex; align-items: center; gap: 5px;\
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);\
+  color: white; border: none; border-radius: 20px;\
+  padding: 6px 14px; font-size: 12px; font-weight: 500;\
+  cursor: pointer; margin-left: 6px; transition: opacity .15s, transform .1s;\
+\}\
+.cal-toggle-btn:hover \{ opacity: .9; transform: translateY(-1px); \}\
+.cal-toggle-btn .material-icons \{ font-size: 14px; \}\
+\
+.cal-panel \{\
+  margin: 0 12px 8px; padding: 12px;\
+  border: 1px solid #aecbfa; border-radius: 8px;\
+  background: linear-gradient(135deg, #f8fbff, #e8f0fe); display: none;\
+\}\
+.cal-panel.open \{ display: block; \}\
+.cal-hd \{\
+  display: flex; align-items: center; gap: 6px;\
+  font-size: 13px; font-weight: 600; color: #1557b0; margin-bottom: 10px;\
+\}\
+.cal-hd .material-icons \{ font-size: 17px; color: var(--blue); \}\
+.cal-grid \{\
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;\
+\}\
+.cal-grid.full \{ grid-template-columns: 1fr; \}\
+.cal-field \{ display: flex; flex-direction: column; gap: 3px; \}\
+.cal-label \{ font-size: 11px; font-weight: 600; color: var(--sub); \}\
+.cal-input \{\
+  border: 1px solid #aecbfa; border-radius: 6px; padding: 7px 8px;\
+  font-size: 13px; font-family: inherit; outline: none; background: white;\
+  transition: border .2s;\
+\}\
+.cal-input:focus \{ border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,115,232,.2); \}\
+.cal-textarea \{\
+  border: 1px solid #aecbfa; border-radius: 6px; padding: 7px 8px;\
+  font-size: 13px; font-family: inherit; resize: vertical; min-height: 60px;\
+  outline: none; background: white; transition: border .2s;\
+\}\
+.cal-textarea:focus \{ border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,115,232,.2); \}\
+.cal-extract-btn \{\
+  display: inline-flex; align-items: center; gap: 6px;\
+  background: var(--blue); color: white; border: none; border-radius: 6px;\
+  padding: 7px 16px; font-size: 13px; cursor: pointer; transition: background .15s;\
+  margin-bottom: 10px;\
+\}\
+.cal-extract-btn:hover:not(:disabled) \{ background: var(--blue-dk); \}\
+.cal-extract-btn:disabled \{ opacity: .6; cursor: not-allowed; \}\
+.cal-extract-btn .material-icons \{ font-size: 15px; \}\
+.cal-save-btn \{\
+  display: inline-flex; align-items: center; gap: 6px;\
+  background: #059669; color: white; border: none; border-radius: 6px;\
+  padding: 7px 18px; font-size: 13px; cursor: pointer; margin-left: 8px;\
+\}\
+.cal-save-btn:hover:not(:disabled) \{ background: #047857; \}\
+.cal-save-btn:disabled \{ opacity: .6; cursor: not-allowed; \}\
+.cal-save-btn .material-icons \{ font-size: 15px; \}\
+.cal-form \{ display: none; \}\
+.cal-form.open \{ display: block; \}\
+.cal-actions \{ display: flex; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 4px; \}\
+/* \uc0\u9472 \u9472  \u21463 \u20449 \u12513 \u12540 \u12523 \u28155 \u20184 \u12501 \u12449 \u12452 \u12523 \u34920 \u31034  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.msg-attachments \{\
+  display: flex; flex-wrap: wrap; gap: 6px;\
+  padding: 8px 16px 12px 68px;\
+  border-top: 1px solid var(--border);\
+\}\
+.msg-attach-chip \{\
+  display: flex; align-items: center; gap: 6px;\
+  background: var(--hover); border: 1px solid var(--border);\
+  border-radius: 8px; padding: 6px 12px;\
+  font-size: 12px; color: var(--text);\
+  cursor: pointer; transition: background .15s, border-color .15s;\
+  max-width: 220px;\
+\}\
+.msg-attach-chip:hover \{ background: var(--blue-lt); border-color: var(--blue); \}\
+.msg-attach-chip .material-icons \{ font-size: 18px; color: var(--sub); flex-shrink: 0; \}\
+.msg-attach-chip:hover .material-icons \{ color: var(--blue); \}\
+.msg-attach-chip.loading \{ opacity: .6; cursor: default; \}\
+.msg-attach-name \{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; \}\
+.msg-attach-size \{ color: var(--sub); flex-shrink: 0; \}\
+\
+/* \uc0\u9472 \u9472  \u28155 \u20184 \u12501 \u12449 \u12452 \u12523 \u12503 \u12524 \u12499 \u12517 \u12540 \u12514 \u12540 \u12480 \u12523  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472  */\
+.preview-overlay \{\
+  position: fixed; inset: 0; background: rgba(0,0,0,.75);\
+  display: none; align-items: center; justify-content: center;\
+  z-index: 800; padding: 24px;\
+\}\
+.preview-overlay.open \{ display: flex; \}\
+\
+.preview-modal \{\
+  background: var(--white); border-radius: 12px;\
+  box-shadow: 0 12px 40px rgba(0,0,0,.4);\
+  display: flex; flex-direction: column;\
+  max-width: 90vw; max-height: 90vh; width: 860px; overflow: hidden;\
+\}\
+.preview-hd \{\
+  display: flex; align-items: center; gap: 10px;\
+  padding: 12px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0;\
+\}\
+.preview-filename \{\
+  flex: 1; font-size: 14px; font-weight: 500;\
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;\
+\}\
+.preview-filesize \{ font-size: 12px; color: var(--sub); flex-shrink: 0; \}\
+.preview-dl-btn \{\
+  display: inline-flex; align-items: center; gap: 5px;\
+  background: var(--blue); color: white; border: none; border-radius: 6px;\
+  padding: 6px 14px; font-size: 13px; cursor: pointer; flex-shrink: 0;\
+\}\
+.preview-dl-btn:hover \{ background: var(--blue-dk); \}\
+.preview-dl-btn .material-icons \{ font-size: 16px; \}\
+.preview-close \{\
+  width: 36px; height: 36px; border-radius: 50%; border: none;\
+  background: none; cursor: pointer; color: var(--sub);\
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;\
+\}\
+.preview-close:hover \{ background: var(--hover); color: var(--text); \}\
+\
+.preview-body \{\
+  flex: 1; overflow: auto; display: flex;\
+  align-items: center; justify-content: center;\
+  background: #f0f0f0; min-height: 200px;\
+\}\
+/* \uc0\u30011 \u20687  */\
+.preview-body img \{\
+  max-width: 100%; max-height: 80vh;\
+  object-fit: contain; display: block;\
+\}\
+/* PDF */\
+.preview-body embed,\
+.preview-body iframe \{\
+  width: 100%; height: 80vh; border: none; display: block;\
+\}\
+/* \uc0\u12486 \u12461 \u12473 \u12488  */\
+.preview-text-content \{\
+  width: 100%; height: 80vh; overflow: auto; background: white;\
+  padding: 20px; font-family: monospace; font-size: 13px;\
+  white-space: pre-wrap; word-break: break-all; line-height: 1.6;\
+  color: var(--text);\
+\}\
+/* \uc0\u21205 \u30011 \u12539 \u38899 \u22768  */\
+.preview-body video,\
+.preview-body audio \{ max-width: 100%; max-height: 80vh; \}\
+/* \uc0\u12503 \u12524 \u12499 \u12517 \u12540 \u19981 \u21487  */\
+.preview-unsupported \{\
+  display: flex; flex-direction: column; align-items: center;\
+  gap: 12px; padding: 48px; color: var(--sub); text-align: center;\
+\}\
+.preview-unsupported .material-icons \{ font-size: 56px; color: var(--border); \}\
+.preview-loading \{\
+  display: flex; flex-direction: column; align-items: center;\
+  gap: 12px; padding: 48px; color: var(--sub);\
+\}\
+</style>\
+</head>\
+<body>\
+\
+<!-- \uc0\u12488 \u12483 \u12503 \u12496 \u12540  -->\
+<header class="topbar">\
+  <div class="topbar-left">\
+    <button class="ibtn" onclick="toggleSidebar()" title="\uc0\u12513 \u12491 \u12517 \u12540 ">\
+      <span class="material-icons">menu</span>\
+    </button>\
+    <div class="logo" style="display:flex;align-items:center;gap:8px">\
+      <div class="logo-svg"><?!= include('Logo') ?></div>\
+      <span class="logo-text">ISSC-AI Gmail</span>\
+    </div>\
+  </div>\
+\
+  <div class="search-wrap">\
+    <span class="material-icons">search</span>\
+    <input id="searchInput" type="search" placeholder="\uc0\u12513 \u12540 \u12523 \u12434 \u26908 \u32034 " onkeydown="onSearchKey(event)">\
+  </div>\
+\
+  <div class="topbar-right">\
+    <button class="ibtn" onclick="openSettings()" title="API\uc0\u35373 \u23450 ">\
+      <span class="material-icons">settings</span>\
+    </button>\
+    <div class="user-wrap" id="userWrap">\
+      <div class="avatar" id="avatarBtn" onclick="toggleUserMenu()" title="\uc0\u12450 \u12459 \u12454 \u12531 \u12488 \u20999 \u26367 ">U</div>\
+      <div class="user-dropdown" id="userDropdown">\
+        <div class="ud-header">\
+          <div class="ud-big-av" id="udBigAv">U</div>\
+          <div class="ud-info">\
+            <div class="ud-name"  id="udName">\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</div>\
+            <div class="ud-email" id="udEmail"></div>\
+          </div>\
+        </div>\
+        <div class="ud-accounts" id="udAccounts"></div>\
+        <div class="ud-add-btn" onclick="toggleAddForm()">\
+          <span class="material-icons">add_circle_outline</span>\uc0\u21029 \u12398 \u12450 \u12459 \u12454 \u12531 \u12488 \u12434 \u36861 \u21152 \
+        </div>\
+        <div class="ud-add-form" id="udAddForm">\
+          <div class="ud-add-form-title">\uc0\u21029 \u12398 GAS\u12487 \u12503 \u12525 \u12452 URL\u12434 \u30331 \u37682 </div>\
+          <input id="accName"  type="text"  placeholder="\uc0\u34920 \u31034 \u21517 \u65288 \u20363 \u65306 \u20181 \u20107 \u29992 \u65289 ">\
+          <input id="accEmail" type="email" placeholder="\uc0\u12513 \u12540 \u12523 \u12450 \u12489 \u12524 \u12473 \u65288 \u20219 \u24847 \u65289 ">\
+          <input id="accUrl"   type="url"   placeholder="GAS\uc0\u12454 \u12455 \u12502 \u12450 \u12503 \u12522 \u12398 URL">\
+          <div class="ud-add-form-tip">\uc0\u21029 \u12398 Google\u12450 \u12459 \u12454 \u12531 \u12488 \u12391 \u21516 \u12376 \u12473 \u12463 \u12522 \u12503 \u12488 \u12434 \u12487 \u12503 \u12525 \u12452 \u12375 \u12289 \u12381 \u12398 URL\u12434 \u30331 \u37682 \u12377 \u12427 \u12371 \u12392 \u12391 \u20999 \u12426 \u26367 \u12360 \u12364 \u12391 \u12365 \u12414 \u12377 \u12290 </div>\
+          <div class="ud-add-form-btns">\
+            <button class="ud-cancel-btn" onclick="toggleAddForm()">\uc0\u12461 \u12515 \u12531 \u12475 \u12523 </button>\
+            <button class="ud-save-btn"   onclick="saveAccount()">\uc0\u36861 \u21152 </button>\
+          </div>\
+        </div>\
+        <div class="ud-menu-item" onclick="openSettings(); closeUserMenu();">\
+          <span class="material-icons">settings</span>API\uc0\u35373 \u23450 \
+        </div>\
+        <div class="ud-menu-item" onclick="closeUserMenu()">\
+          <span class="material-icons">close</span>\uc0\u38281 \u12376 \u12427 \
+        </div>\
+      </div>\
+    </div>\
+  </div>\
+</header>\
+\
+<!-- \uc0\u12513 \u12452 \u12531 \u12524 \u12452 \u12450 \u12454 \u12488  -->\
+<div class="main">\
+  <aside class="sidebar" id="sidebar">\
+    <button class="compose-btn" onclick="openCompose()">\
+      <span class="material-icons">edit</span>\
+      <span class="compose-txt">\uc0\u20316 \u25104 </span>\
+    </button>\
+    <nav id="labelNav"></nav>\
+  </aside>\
+\
+  <main class="content">\
+\
+    <!-- \uc0\u12473 \u12524 \u12483 \u12489 \u19968 \u35239 \u12506 \u12452 \u12531  -->\
+    <div id="listPane">\
+      <div class="list-toolbar">\
+        <input type="checkbox" id="cbAll" onchange="checkAll(this)" title="\uc0\u20840 \u36984 \u25246 "\
+          style="width:18px;height:18px;cursor:pointer;accent-color:var(--blue)">\
+        <button class="ibtn" onclick="refreshList()" title="\uc0\u26356 \u26032 ">\
+          <span class="material-icons">refresh</span>\
+        </button>\
+        <div id="bulkActions" style="display:none;align-items:center;gap:4px;">\
+          <button class="ibtn" onclick="doBulkTrash()"      title="\uc0\u36984 \u25246 \u12434 \u21066 \u38500 ">\
+            <span class="material-icons">delete</span>\
+          </button>\
+          <button class="ibtn" onclick="doBulkArchive()"    title="\uc0\u36984 \u25246 \u12434 \u12450 \u12540 \u12459 \u12452 \u12502 ">\
+            <span class="material-icons">archive</span>\
+          </button>\
+          <button class="ibtn" onclick="doBulkNotNeeded()"  title="\uc0\u36984 \u25246 \u12434 \u36820 \u20449 \u19981 \u35201 ">\
+            <span class="material-icons">do_not_disturb_on</span>\
+          </button>\
+          <span style="font-size:12px;color:var(--sub)" id="bulkCount"></span>\
+        </div>\
+        <span class="list-title" id="listTitle">\uc0\u21463 \u20449 \u12488 \u12524 \u12452 </span>\
+        <div class="pagination">\
+          <span class="pg-range" id="pgRange">\'96</span>\
+          <button class="ibtn" id="btnPrev" onclick="prevPage()" disabled>\
+            <span class="material-icons">chevron_left</span>\
+          </button>\
+          <button class="ibtn" id="btnNext" onclick="nextPage()">\
+            <span class="material-icons">chevron_right</span>\
+          </button>\
+        </div>\
+      </div>\
+\
+      \
+      <div id="unrepliedSection">\
+        <div class="ur-hd" id="urHd" onclick="toggleUnreplied()">\
+          <input type="checkbox" id="urCbAll" class="ur-item-cb"\
+            onclick="event.stopPropagation()" onchange="urCheckAll(this)"\
+            style="display:none" title="\uc0\u20840 \u36984 \u25246 ">\
+          <span class="material-icons" style="color:var(--orange)">pending_actions</span>\
+          <span>\uc0\u26410 \u36820 \u20449 \u12513 \u12540 \u12523 </span>\
+          <span class="ur-badge" id="urBadge">0</span>\
+          <span style="margin-left:8px;font-size:11px;font-weight:400;color:var(--sub)">\uc0\u65288 \u21476 \u12356 \u38918 \u65289 </span>\
+          <div id="urBulkActions" style="display:none;align-items:center;gap:2px;margin-left:4px">\
+            <button class="ibtn" style="width:26px;height:26px"\
+              onclick="event.stopPropagation();doUrBulkNotNeeded()" title="\uc0\u36984 \u25246 \u12434 \u36820 \u20449 \u19981 \u35201 ">\
+              <span class="material-icons" style="font-size:16px">do_not_disturb_on</span>\
+            </button>\
+            <span id="urBulkCount" style="font-size:11px;color:var(--sub)"></span>\
+          </div>\
+          <button class="ibtn" style="width:28px;height:28px;margin-left:4px"\
+            onclick="event.stopPropagation();loadUnreplied()" title="\uc0\u26356 \u26032 ">\
+            <span class="material-icons" style="font-size:16px">refresh</span>\
+          </button>\
+          <span class="material-icons ur-chevron" id="urChevron">expand_more</span>\
+        </div>\
+        <div class="ur-body" id="urBody">\
+          <div class="ur-loading"><div class="spinner sm"></div>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</div>\
+        </div>\
+      </div>\
+\
+      <div class="thread-list" id="threadList">\
+        <div class="loading"><div class="spinner"></div><span>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</span></div>\
+      </div>\
+    </div>\
+\
+    <!-- \uc0\u12473 \u12524 \u12483 \u12489 \u35443 \u32048 \u12506 \u12452 \u12531  -->\
+    <div id="detailPane" style="display:none;flex:1;flex-direction:column;overflow:hidden;">\
+      <div class="detail-toolbar">\
+        <button class="ibtn" onclick="backToList()" title="\uc0\u25147 \u12427 ">\
+          <span class="material-icons">arrow_back</span>\
+        </button>\
+        <button class="ibtn" onclick="doTrash()"   title="\uc0\u12468 \u12511 \u31665 "><span class="material-icons">delete</span></button>\
+        <button class="ibtn" onclick="doArchive()" title="\uc0\u12450 \u12540 \u12459 \u12452 \u12502 "><span class="material-icons">archive</span></button>\
+        <button class="ibtn" title="\uc0\u12473 \u12497 \u12512 \u12392 \u12375 \u12390 \u22577 \u21578 "><span class="material-icons">report</span></button>\
+        <button class="ibtn" id="markUnreadBtn" onclick="doMarkUnread()" title="\uc0\u26410 \u35501 \u12395 \u12377 \u12427 ">\
+          <span class="material-icons">mark_email_unread</span>\
+        </button>\
+        <!-- \uc0\u35443 \u32048 \u12506 \u12452 \u12531 \u12398 \u12300 \u36820 \u20449 \u19981 \u35201 \u12301 \u12508 \u12479 \u12531  -->\
+        <button class="ibtn" id="detailSkipBtn" onclick="doDetailMarkNotNeeded()" title="\uc0\u36820 \u20449 \u19981 \u35201 \u12392 \u12375 \u12390 \u12510 \u12540 \u12463 "\
+          style="color:var(--sub)">\
+          <span class="material-icons">do_not_disturb_on</span>\
+        </button>\
+        <div style="margin-left:auto;display:flex;gap:4px;">\
+          <button class="ibtn"><span class="material-icons">chevron_left</span></button>\
+          <button class="ibtn"><span class="material-icons">chevron_right</span></button>\
+        </div>\
+      </div>\
+\
+      <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;">\
+        <div class="d-subject">\
+          <span id="detailSubject" style="flex:1"></span>\
+          <button class="ibtn" id="starBtn" onclick="toggleDetailStar()" title="\uc0\u12473 \u12479 \u12540 ">\
+            <span class="material-icons">star_border</span>\
+          </button>\
+        </div>\
+\
+        <div class="msgs-area" id="msgsArea"></div>\
+\
+        <!-- \uc0\u36820 \u20449 \u12467 \u12531 \u12509 \u12540 \u12470 \u12540  -->\
+        <div class="composer" id="composer">\
+          <div class="composer-hd">\
+            <span id="replyLabel" style="font-weight:500">\uc0\u36820 \u20449 </span>\
+            <div style="display:flex;gap:4px">\
+              <button class="ibtn" title="\uc0\u20840 \u21729 \u12395 \u36820 \u20449 " style="width:32px;height:32px" onclick="setReplyMode('all')">\
+                <span class="material-icons" style="font-size:18px">reply_all</span>\
+              </button>\
+              <button class="ibtn" title="\uc0\u36578 \u36865 " style="width:32px;height:32px" onclick="setReplyMode('forward')">\
+                <span class="material-icons" style="font-size:18px">forward</span>\
+              </button>\
+            </div>\
+          </div>\
+          <div id="replyToRow" style="display:none;flex-direction:column;border-bottom:1px solid var(--border)">\
+            <div style="display:flex;align-items:center;gap:8px;padding:4px 16px;border-bottom:1px solid var(--border);font-size:13px;">\
+              <span style="color:var(--sub);width:28px;flex-shrink:0">\uc0\u23451 \u20808 </span>\
+              <div class="ac-wrap" style="flex:1">\
+                <input type="text" id="replyTo" autocomplete="off" style="width:100%;border:none;outline:none;font-size:13px;font-family:inherit;"\
+                  placeholder="\uc0\u36861 \u21152 \u12398 \u23451 \u20808 "\
+                  oninput="acInput('replyTo','acDropReplyTo')"\
+                  onkeydown="acKeydown(event,'replyTo','acDropReplyTo')"\
+                  onblur="acBlur('acDropReplyTo')">\
+                <div class="ac-dropdown" id="acDropReplyTo"></div>\
+              </div>\
+            </div>\
+            <div style="display:flex;align-items:center;gap:8px;padding:4px 16px;border-bottom:1px solid var(--border);font-size:13px;">\
+              <span style="color:var(--sub);width:28px;flex-shrink:0">Cc</span>\
+              <div class="ac-wrap" style="flex:1">\
+                <input type="text" id="replyCc" autocomplete="off" style="width:100%;border:none;outline:none;font-size:13px;font-family:inherit;"\
+                  placeholder="Cc"\
+                  oninput="acInput('replyCc','acDropReplyCc')"\
+                  onkeydown="acKeydown(event,'replyCc','acDropReplyCc')"\
+                  onblur="acBlur('acDropReplyCc')">\
+                <div class="ac-dropdown" id="acDropReplyCc"></div>\
+              </div>\
+              <button class="bcc-link" onclick="toggleReplyBcc()">Bcc</button>\
+            </div>\
+            <div id="replyBccRow" style="display:none;align-items:center;gap:8px;padding:4px 16px;font-size:13px;">\
+              <span style="color:var(--sub);width:28px;flex-shrink:0">Bcc</span>\
+              <div class="ac-wrap" style="flex:1">\
+                <input type="text" id="replyBcc" autocomplete="off" style="width:100%;border:none;outline:none;font-size:13px;font-family:inherit;"\
+                  placeholder="Bcc"\
+                  oninput="acInput('replyBcc','acDropReplyBcc')"\
+                  onkeydown="acKeydown(event,'replyBcc','acDropReplyBcc')"\
+                  onblur="acBlur('acDropReplyBcc')">\
+                <div class="ac-dropdown" id="acDropReplyBcc"></div>\
+              </div>\
+            </div>\
+          </div>\
+\
+          <!-- AI \uc0\u12497 \u12493 \u12523  -->\
+          <div class="ai-panel" id="aiPanel">\
+            <div class="ai-hd">\
+              <span class="material-icons">auto_awesome</span>AI \uc0\u36820 \u20449 \u12450 \u12471 \u12473 \u12479 \u12531 \u12488 \
+              <button class="ibtn" style="margin-left:auto;width:28px;height:28px" onclick="document.getElementById('aiPanel').classList.remove('open')" title="\uc0\u38281 \u12376 \u12427 ">\
+                <span class="material-icons" style="font-size:18px">close</span>\
+              </button>\
+            </div>\
+            <div class="quota-bar" id="quotaBar" style="display:none">\
+              <div class="quota-label">\
+                <span class="material-icons" style="font-size:13px;color:var(--purple)">data_usage</span>\
+                <span id="quotaText">Gemini \uc0\u28961 \u26009 \u26528 : \u21462 \u24471 \u20013 ...</span>\
+                <button class="quota-refresh-btn" onclick="refreshQuota()" title="\uc0\u26356 \u26032 ">\
+                  <span class="material-icons" style="font-size:13px">refresh</span>\
+                </button>\
+              </div>\
+              <div class="quota-track"><div class="quota-fill" id="quotaFill"></div></div>\
+              <div class="quota-detail" id="quotaDetail"></div>\
+            </div>\
+            <div class="model-row" id="modelRow">\
+              <button class="model-chip on" data-m="gemini-2.5-flash" onclick="pickModel(this)">\
+                \uc0\u9889  Gemini 2.5 Flash<span class="cost-tag cost-lo">\u28961 \u26009 \u26528 \u12354 \u12426 </span>\
+              </button>\
+              <button class="model-chip" data-m="gemini-2.5-flash-lite" onclick="pickModel(this)">\
+                \uc0\u55357 \u56631  Gemini 2.5 Flash-Lite<span class="cost-tag cost-lo">\u26368 \u23433 </span>\
+              </button>\
+              <button class="model-chip" data-m="claude-haiku" onclick="pickModel(this)">\
+                \uc0\u55357 \u56632  Claude Haiku<span class="cost-tag cost-lo">\u20302 </span>\
+              </button>\
+              <button class="model-chip" data-m="claude-sonnet" onclick="pickModel(this)">\
+                \uc0\u10024  Claude Sonnet<span class="cost-tag cost-md">\u20013 </span>\
+              </button>\
+              <button class="model-chip" data-m="claude-opus" onclick="pickModel(this)">\
+                \uc0\u55357 \u56401  Claude Opus<span class="cost-tag cost-hi">\u39640 </span>\
+              </button>\
+            </div>\
+            <textarea class="ai-req" id="aiReq" rows="2"\
+              placeholder="\uc0\u35201 \u26395 \u65288 \u20219 \u24847 \u65289 : \u20363 \u12300 \u19969 \u23527 \u12395 \u26029 \u12387 \u12390 \u12301 \u12300 \u33521 \u35486 \u12391 \u36820 \u20449 \u12301 \u12300 \u35443 \u12375 \u12367 \u36074 \u21839 \u12375 \u12390 \u12301 \u12300 \u31623 \u26465 \u26360 \u12365 \u12391 \u35201 \u28857 \u25972 \u29702 \u12301 "></textarea>\
+            <button class="ai-gen-btn" id="aiGenBtn" onclick="doGenerate()">\
+              <span class="material-icons">auto_awesome</span>\uc0\u36820 \u20449 \u12434 \u29983 \u25104 \
+            </button>\
+            <div class="ai-result" id="aiResult"></div>\
+            <div class="ai-actions" id="aiActions">\
+              <button class="use-btn" onclick="useResult()">\
+                <span class="material-icons" style="font-size:14px">check</span>\uc0\u12371 \u12398 \u36820 \u20449 \u12434 \u20351 \u29992 \
+              </button>\
+              <button class="regen-btn" onclick="doGenerate()">\uc0\u55357 \u56580  \u20877 \u29983 \u25104 </button>\
+            </div>\
+          </div>\
+\
+          <!-- \uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u30331 \u37682 \u12497 \u12493 \u12523  -->\
+          <div class="cal-panel" id="calPanel">\
+            <div class="cal-hd">\
+              <span class="material-icons">event</span>Google\uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u12395 \u30331 \u37682 \
+              <button class="ibtn" style="margin-left:auto;width:28px;height:28px" onclick="document.getElementById('calPanel').classList.remove('open')" title="\uc0\u38281 \u12376 \u12427 ">\
+                <span class="material-icons" style="font-size:18px">close</span>\
+              </button>\
+            </div>\
+            <button class="cal-extract-btn" id="calExtractBtn" onclick="doExtractEvent()">\
+              <span class="material-icons">auto_awesome</span>AI\uc0\u12391 \u12513 \u12540 \u12523 \u12363 \u12425 \u26085 \u31243 \u12434 \u25277 \u20986 \
+            </button>\
+            <div class="cal-form" id="calForm">\
+              <div class="cal-grid full" style="margin-bottom:8px">\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u12479 \u12452 \u12488 \u12523 </span>\
+                  <input class="cal-input" id="calTitle" type="text" placeholder="\uc0\u12452 \u12505 \u12531 \u12488 \u12479 \u12452 \u12488 \u12523 ">\
+                </div>\
+              </div>\
+              <div class="cal-grid">\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u26085 \u20184 </span>\
+                  <input class="cal-input" id="calDate" type="date">\
+                </div>\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u12459 \u12524 \u12531 \u12480 \u12540 </span>\
+                  <select class="cal-input" id="calSelect">\
+                    <option value="primary">\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</option>\
+                  </select>\
+                </div>\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u38283 \u22987 \u26178 \u21051 </span>\
+                  <input class="cal-input" id="calStart" type="time">\
+                </div>\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u32066 \u20102 \u26178 \u21051 </span>\
+                  <input class="cal-input" id="calEnd" type="time">\
+                </div>\
+              </div>\
+              <div class="cal-grid full" style="margin-top:8px">\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u22580 \u25152 </span>\
+                  <input class="cal-input" id="calLocation" type="text" placeholder="\uc0\u22580 \u25152 \u65288 \u20219 \u24847 \u65289 ">\
+                </div>\
+              </div>\
+              <div class="cal-grid full" style="margin-top:8px">\
+                <div class="cal-field">\
+                  <span class="cal-label">\uc0\u20633 \u32771 \u12539 \u12513 \u12514 </span>\
+                  <textarea class="cal-textarea" id="calNotes" placeholder="\uc0\u20633 \u32771 \u65288 \u20219 \u24847 \u65289 "></textarea>\
+                </div>\
+              </div>\
+              <div class="cal-actions">\
+                <button class="cal-save-btn" id="calSaveBtn" onclick="doSaveCalendar()">\
+                  <span class="material-icons">check</span>\uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u12395 \u30331 \u37682 \
+                </button>\
+                <button class="regen-btn" onclick="doExtractEvent()" style="margin-left:0">\uc0\u55357 \u56580  \u20877 \u25277 \u20986 </button>\
+              </div>\
+            </div>\
+          </div>\
+\
+          <div class="fmt-bar" onmousedown="event.preventDefault()">\
+            <button class="fmt-btn" onclick="fmt('bold')"      title="\uc0\u22826 \u23383 "><b>B</b></button>\
+            <button class="fmt-btn" onclick="fmt('italic')"    title="\uc0\u26012 \u20307 "><i>I</i></button>\
+            <button class="fmt-btn" onclick="fmt('underline')" title="\uc0\u19979 \u32218 "><u>U</u></button>\
+            <button class="fmt-btn" onclick="fmt('strikeThrough')" title="\uc0\u21462 \u12426 \u28040 \u12375 \u32218 "><s>S</s></button>\
+            <span class="fmt-sep">|</span>\
+            <select class="fmt-select" onchange="fmt('fontSize',this.value); this.value=''">\
+              <option value="">\uc0\u12469 \u12452 \u12474 </option>\
+              <option value="1">\uc0\u26997 \u23567 </option><option value="2">\u23567 </option>\
+              <option value="3">\uc0\u27161 \u28310 </option><option value="4">\u22823 </option><option value="5">\u29305 \u22823 </option>\
+            </select>\
+            <span class="fmt-sep">|</span>\
+            <button class="fmt-btn" onclick="fmt('insertUnorderedList')">\
+              <span class="material-icons">format_list_bulleted</span>\
+            </button>\
+            <button class="fmt-btn" onclick="fmt('insertOrderedList')">\
+              <span class="material-icons">format_list_numbered</span>\
+            </button>\
+            <button class="fmt-btn" onclick="fmt('indent')">\
+              <span class="material-icons">format_indent_increase</span>\
+            </button>\
+            <button class="fmt-btn" onclick="fmt('outdent')">\
+              <span class="material-icons">format_indent_decrease</span>\
+            </button>\
+            <span class="fmt-sep">|</span>\
+            <button class="fmt-btn" onclick="insertLink('compBody')">\
+              <span class="material-icons">insert_link</span>\
+            </button>\
+            <button class="fmt-btn" onclick="fmt('removeFormat')">\
+              <span class="material-icons">format_clear</span>\
+            </button>\
+            <span class="fmt-sep">|</span>\
+            <button class="fmt-btn" onclick="pickFile('replyAttach')">\
+              <span class="material-icons">attach_file</span>\
+            </button>\
+            <button class="fmt-btn" onclick="insertSignature('compBody')" title="\uc0\u32626 \u21517 \u12434 \u25407 \u20837 ">\
+              <span class="material-icons">draw</span>\
+            </button>\
+          </div>\
+\
+          <div contenteditable="true" id="compBody" class="comp-editable"\
+            data-placeholder="\uc0\u36820 \u20449 \u12434 \u20837 \u21147 ..."></div>\
+\
+          <div class="attach-list" id="replyAttachList"></div>\
+          <input type="file" id="replyAttach" multiple style="display:none"\
+            onchange="onFileSelect(event,'replyAttachList','replyFiles')">\
+\
+          <div class="composer-foot">\
+            <button class="send-btn" id="sendReplyBtn" onclick="doSendReply()">\uc0\u36865 \u20449 </button>\
+            <button class="ai-toggle-btn" onclick="toggleAI()">\
+              <span class="material-icons">auto_awesome</span>AI \uc0\u29983 \u25104 \
+            </button>\
+            <button class="cal-toggle-btn" onclick="toggleCal()">\
+              <span class="material-icons">event</span>\uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u30331 \u37682 \
+            </button>\
+            <div style="margin-left:auto;display:flex;gap:2px">\
+              <button class="ibtn" onclick="clearComposer()" title="\uc0\u30772 \u26820 ">\
+                <span class="material-icons">delete</span>\
+              </button>\
+            </div>\
+          </div>\
+        </div>\
+      </div>\
+    </div>\
+\
+  </main>\
+</div>\
+\
+<!-- \uc0\u35373 \u23450 \u12514 \u12540 \u12480 \u12523  -->\
+<div class="overlay" id="settingsOverlay">\
+  <div class="modal">\
+    <div class="modal-title"><span class="material-icons">settings</span>API \uc0\u12461 \u12540 \u35373 \u23450 </div>\
+    <div class="modal-section">\
+      <div class="modal-lbl"><span class="dot" id="dotGemini"></span>Gemini API \uc0\u12461 \u12540 </div>\
+      <input type="password" class="modal-input" id="inGemini" placeholder="AIzaSy...">\
+      <div class="modal-tip">\
+        <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>\
+        \uc0\u12391 \u28961 \u26009 \u21462 \u24471 \u12290 Gemini 2.5 Flash \u12364 \u26368 \u23433 \u25512 \u22888 \u12290 \
+      </div>\
+    </div>\
+    <div class="modal-section">\
+      <div class="modal-lbl"><span class="dot" id="dotClaude"></span>Claude API \uc0\u12461 \u12540 </div>\
+      <input type="password" class="modal-input" id="inClaude" placeholder="sk-ant-api03-...">\
+      <div class="modal-tip">\
+        <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a>\
+        \uc0\u12391 \u21462 \u24471 \u12290 Haiku \u12364 \u26368 \u23433 \u12290 \
+      </div>\
+    </div>\
+    <div class="cost-info">\
+      <strong>\uc0\u55357 \u56481  \u12467 \u12473 \u12488 \u31680 \u32004 \u12398 \u12509 \u12452 \u12531 \u12488 </strong><br>\
+      \uc0\u26412 \u12484 \u12540 \u12523 \u12399 \u12513 \u12540 \u12523 \u26412 \u25991 \u12434  <strong>2,500\u25991 \u23383 \u12391 \u33258 \u21205 \u12459 \u12483 \u12488 </strong>\u12289 \u20986 \u21147 \u12434  <strong>1,000\u12488 \u12540 \u12463 \u12531 \u12395 \u21046 \u38480 </strong> \u12375 \u12390 \u12356 \u12427 \u12383 \u12417 \u12289 \
+      1\uc0\u22238 \u12398 \u29983 \u25104 \u12467 \u12473 \u12488 \u12399 \u27010 \u12397 \u25968 \u20870 \u20197 \u19979 \u12391 \u12377 \u12290 \
+    </div>\
+    <div class="modal-section">\
+      <div class="modal-lbl">\uc0\u32626 \u21517 </div>\
+      <textarea id="inSignature" class="modal-input" rows="4"\
+        style="font-family:inherit;resize:vertical"\
+        placeholder="\uc0\u20363 \u65289 \u23665 \u30000  \u22826 \u37070 &#10;\u26666 \u24335 \u20250 \u31038 \u12295 \u12295  \u21942 \u26989 \u37096 &#10;Tel: 03-XXXX-XXXX"></textarea>\
+      <div class="modal-tip">\uc0\u36820 \u20449 \u12539 \u26032 \u35215 \u20316 \u25104 \u12398 \u32626 \u21517 \u25407 \u20837 \u12508 \u12479 \u12531 \u12391 \u20351 \u29992 \u12373 \u12428 \u12414 \u12377 </div>\
+    </div>\
+    <div class="modal-foot">\
+      <button class="modal-cancel" onclick="closeSettings()">\uc0\u12461 \u12515 \u12531 \u12475 \u12523 </button>\
+      <button class="modal-save"   onclick="saveSettings()">\uc0\u20445 \u23384 </button>\
+    </div>\
+  </div>\
+</div>\
+\
+<!-- \uc0\u26032 \u35215 \u20316 \u25104 \u12454 \u12451 \u12531 \u12489 \u12454  -->\
+<div class="compose-win" id="composeWin">\
+  <div class="cw-hd">\
+    <span>\uc0\u26032 \u35215 \u12513 \u12483 \u12475 \u12540 \u12472 </span>\
+    <div style="display:flex;gap:2px">\
+      <button class="ibtn" style="color:white;width:28px;height:28px" onclick="closeCompose()">\
+        <span class="material-icons" style="font-size:18px">close</span>\
+      </button>\
+    </div>\
+  </div>\
+  <div class="cw-field">\
+    <label>\uc0\u23451 \u20808 </label>\
+    <div class="ac-wrap" id="acWrapCwTo">\
+      <input type="text" id="cwTo" placeholder="" autocomplete="off"\
+        oninput="acInput('cwTo','acDropCwTo')"\
+        onkeydown="acKeydown(event,'cwTo','acDropCwTo')"\
+        onblur="acBlur('acDropCwTo')">\
+      <div class="ac-dropdown" id="acDropCwTo"></div>\
+    </div>\
+  </div>\
+  <div class="cw-field">\
+    <label>Cc</label>\
+    <div class="ac-wrap" id="acWrapCwCc">\
+      <input type="text" id="cwCc" placeholder="" autocomplete="off"\
+        oninput="acInput('cwCc','acDropCwCc')"\
+        onkeydown="acKeydown(event,'cwCc','acDropCwCc')"\
+        onblur="acBlur('acDropCwCc')">\
+      <div class="ac-dropdown" id="acDropCwCc"></div>\
+    </div>\
+    <button class="bcc-link" onclick="toggleCwBcc()">Bcc</button>\
+  </div>\
+  <div class="cw-field" id="cwBccRow" style="display:none">\
+    <label>Bcc</label>\
+    <div class="ac-wrap" id="acWrapCwBcc">\
+      <input type="text" id="cwBcc" placeholder="" autocomplete="off"\
+        oninput="acInput('cwBcc','acDropCwBcc')"\
+        onkeydown="acKeydown(event,'cwBcc','acDropCwBcc')"\
+        onblur="acBlur('acDropCwBcc')">\
+      <div class="ac-dropdown" id="acDropCwBcc"></div>\
+    </div>\
+  </div>\
+  <div class="cw-field">\
+    <label>\uc0\u20214 \u21517 </label>\
+    <input type="text" id="cwSubject" placeholder="">\
+  </div>\
+  <div class="ai-panel" id="cwAiPanel">\
+    <div class="ai-hd">\
+      <span class="material-icons">auto_awesome</span>AI \uc0\u12513 \u12540 \u12523 \u20316 \u25104 \u12450 \u12471 \u12473 \u12479 \u12531 \u12488 \
+      <button class="ibtn" style="margin-left:auto;width:28px;height:28px" onclick="document.getElementById('cwAiPanel').classList.remove('open')" title="\uc0\u38281 \u12376 \u12427 ">\
+        <span class="material-icons" style="font-size:18px">close</span>\
+      </button>\
+    </div>\
+    <div class="quota-bar" id="cwQuotaBar" style="display:none">\
+      <div class="quota-label">\
+        <span class="material-icons" style="font-size:13px;color:var(--purple)">data_usage</span>\
+        <span id="cwQuotaText">Gemini \uc0\u28961 \u26009 \u26528 : \u21462 \u24471 \u20013 ...</span>\
+        <button class="quota-refresh-btn" onclick="refreshQuota()">\
+          <span class="material-icons" style="font-size:13px">refresh</span>\
+        </button>\
+      </div>\
+      <div class="quota-track"><div class="quota-fill" id="cwQuotaFill"></div></div>\
+      <div class="quota-detail" id="cwQuotaDetail"></div>\
+    </div>\
+    <div class="model-row" id="cwModelRow">\
+      <button class="model-chip on" data-m="gemini-2.5-flash" onclick="cwPickModel(this)">\
+        \uc0\u9889  Gemini 2.5 Flash<span class="cost-tag cost-lo">\u28961 \u26009 \u26528 </span>\
+      </button>\
+      <button class="model-chip" data-m="gemini-2.5-flash-lite" onclick="cwPickModel(this)">\
+        \uc0\u55357 \u56631  Flash-Lite<span class="cost-tag cost-lo">\u26368 \u23433 </span>\
+      </button>\
+      <button class="model-chip" data-m="claude-haiku" onclick="cwPickModel(this)">\
+        \uc0\u55357 \u56632  Claude Haiku<span class="cost-tag cost-lo">\u20302 </span>\
+      </button>\
+      <button class="model-chip" data-m="claude-sonnet" onclick="cwPickModel(this)">\
+        \uc0\u10024  Claude Sonnet<span class="cost-tag cost-md">\u20013 </span>\
+      </button>\
+    </div>\
+    <textarea class="ai-req" id="cwAiReq" rows="2"\
+      placeholder="\uc0\u35201 \u26395 \u65288 \u20219 \u24847 \u65289 : \u20363 \u12300 \u20250 \u35696 \u12398 \u26085 \u31243 \u35519 \u25972 \u12434 \u12362 \u39000 \u12356 \u12377 \u12427 \u12301 \u12300 \u33521 \u35486 \u12391 \u26360 \u12356 \u12390 \u12301 "></textarea>\
+    <button class="ai-gen-btn" id="cwAiGenBtn" onclick="doCwGenerate()">\
+      <span class="material-icons">auto_awesome</span>\uc0\u26412 \u25991 \u12434 \u29983 \u25104 \
+    </button>\
+    <div class="ai-result" id="cwAiResult"></div>\
+    <div class="ai-actions" id="cwAiActions">\
+      <button class="use-btn" onclick="cwUseResult()">\
+        <span class="material-icons" style="font-size:14px">check</span>\uc0\u12371 \u12398 \u26412 \u25991 \u12434 \u20351 \u29992 \
+      </button>\
+      <button class="regen-btn" onclick="doCwGenerate()">\uc0\u55357 \u56580  \u20877 \u29983 \u25104 </button>\
+    </div>\
+  </div>\
+  <div class="fmt-bar" onmousedown="event.preventDefault()">\
+    <button class="fmt-btn" onclick="fmt('bold')"><b>B</b></button>\
+    <button class="fmt-btn" onclick="fmt('italic')"><i>I</i></button>\
+    <button class="fmt-btn" onclick="fmt('underline')"><u>U</u></button>\
+    <button class="fmt-btn" onclick="fmt('strikeThrough')"><s>S</s></button>\
+    <span class="fmt-sep">|</span>\
+    <select class="fmt-select" onchange="fmt('fontSize',this.value); this.value=''">\
+      <option value="">\uc0\u12469 \u12452 \u12474 </option>\
+      <option value="1">\uc0\u26997 \u23567 </option><option value="2">\u23567 </option>\
+      <option value="3">\uc0\u27161 \u28310 </option><option value="4">\u22823 </option><option value="5">\u29305 \u22823 </option>\
+    </select>\
+    <span class="fmt-sep">|</span>\
+    <button class="fmt-btn" onclick="fmt('insertUnorderedList')">\
+      <span class="material-icons">format_list_bulleted</span>\
+    </button>\
+    <button class="fmt-btn" onclick="fmt('insertOrderedList')">\
+      <span class="material-icons">format_list_numbered</span>\
+    </button>\
+    <span class="fmt-sep">|</span>\
+    <button class="fmt-btn" onclick="insertLink('cwBody')">\
+      <span class="material-icons">insert_link</span>\
+    </button>\
+    <button class="fmt-btn" onclick="fmt('removeFormat')">\
+      <span class="material-icons">format_clear</span>\
+    </button>\
+    <span class="fmt-sep">|</span>\
+    <button class="fmt-btn" onclick="pickFile('cwAttach')">\
+      <span class="material-icons">attach_file</span>\
+    </button>\
+    <button class="fmt-btn" onclick="insertSignature('cwBody')" title="\uc0\u32626 \u21517 \u12434 \u25407 \u20837 ">\
+      <span class="material-icons">draw</span>\
+    </button>\
+  </div>\
+  <div contenteditable="true" id="cwBody" class="cw-editable" data-placeholder="\uc0\u26412 \u25991 \u12434 \u20837 \u21147 ..."></div>\
+  <div class="attach-list" id="cwAttachList"></div>\
+  <input type="file" id="cwAttach" multiple style="display:none"\
+    onchange="onFileSelect(event,'cwAttachList','cwFiles')">\
+  <div class="cw-foot">\
+    <button class="send-btn" onclick="doSendNew()">\uc0\u36865 \u20449 </button>\
+    <button class="ai-toggle-btn" onclick="toggleCwAI()">\
+      <span class="material-icons">auto_awesome</span>AI \uc0\u29983 \u25104 \
+    </button>\
+    <button class="ibtn" onclick="closeCompose()" title="\uc0\u30772 \u26820 " style="margin-left:auto">\
+      <span class="material-icons">delete</span>\
+    </button>\
+  </div>\
+</div>\
+<!-- \uc0\u28155 \u20184 \u12501 \u12449 \u12452 \u12523 \u12503 \u12524 \u12499 \u12517 \u12540 \u12514 \u12540 \u12480 \u12523  -->\
+<div class="preview-overlay" id="previewOverlay" onclick="onPreviewOverlayClick(event)">\
+  <div class="preview-modal" id="previewModal">\
+    <div class="preview-hd">\
+      <span class="material-icons" id="previewIcon" style="color:var(--sub);flex-shrink:0">attach_file</span>\
+      <span class="preview-filename" id="previewFilename">\uc0\u12501 \u12449 \u12452 \u12523 \u21517 </span>\
+      <span class="preview-filesize" id="previewFilesize"></span>\
+      <button class="preview-dl-btn" id="previewDlBtn" onclick="downloadFromPreview()">\
+        <span class="material-icons">download</span>\uc0\u12480 \u12454 \u12531 \u12525 \u12540 \u12489 \
+      </button>\
+      <button class="preview-close" onclick="closePreview()" title="\uc0\u38281 \u12376 \u12427 ">\
+        <span class="material-icons">close</span>\
+      </button>\
+    </div>\
+    <div class="preview-body" id="previewBody">\
+      <div class="preview-loading">\
+        <div class="spinner"></div><span>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</span>\
+      </div>\
+    </div>\
+  </div>\
+</div>\
+\
+<div class="snack" id="snack"></div>\
+\
+<!-- ================================================================\
+     JavaScript\
+     ================================================================ -->\
+<script>\
+// \uc0\u9472 \u9472  \u12450 \u12503 \u12522 \u29366 \u24907  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+var S = \{\
+  label:       'INBOX',\
+  labelName:   '\uc0\u21463 \u20449 \u12488 \u12524 \u12452 ',\
+  page:        0,\
+  pageSize:    25,\
+  threads:     [],\
+  thread:      null,\
+  model:       'gemini-2.5-flash',\
+  searching:   false,\
+  searchQ:     '',\
+  user:        \{ email: '', name: '' \},\
+\};\
+var fileStores = \{ replyFiles: [], cwFiles: [] \};\
+\
+// \uc0\u9472 \u9472  \u26410 \u36820 \u20449 \u12475 \u12463 \u12471 \u12519 \u12531 \u29366 \u24907  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+var urCollapsed = false;  // \uc0\u25240 \u12426 \u12383 \u12383 \u12415 \u29366 \u24907 \
+var replyMode   = 'reply';\
+\
+// \uc0\u9472 \u9472  \u21021 \u26399 \u21270  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+window.onload = function() \{\
+  loadLabels();\
+  // \uc0\u21021 \u26399 \u12521 \u12505 \u12523 \u12364  INBOX \u12394 \u12398 \u12391 \u26410 \u36820 \u20449 \u12475 \u12463 \u12471 \u12519 \u12531 \u12434 \u34920 \u31034 \u29366 \u24907 \u12395 \u12377 \u12427 \
+  var urSec = document.getElementById('unrepliedSection');\
+  urSec.style.display = 'block';\
+  loadThreads('INBOX', 0);\
+  loadUnreplied();\
+  checkKeys();\
+  loadCurrentUser();\
+  preloadContacts();\
+  setInterval(refreshLabelCounts, 120000);\
+\
+  document.addEventListener('click', function(e) \{\
+    var wrap = document.getElementById('userWrap');\
+    if (wrap && !wrap.contains(e.target)) closeUserMenu();\
+  \});\
+\};\
+\
+// \uc0\u9472 \u9472  \u12518 \u12540 \u12470 \u12540 \u24773 \u22577  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function loadCurrentUser() \{\
+  google.script.run\
+    .withSuccessHandler(function(u) \{\
+      S.user = u;\
+      var init = u.email ? u.email.charAt(0).toUpperCase() : 'U';\
+      document.getElementById('avatarBtn').textContent = init;\
+      document.getElementById('udBigAv').textContent   = init;\
+      document.getElementById('udName').textContent    = u.name  || u.email || '(\uc0\u19981 \u26126 )';\
+      document.getElementById('udEmail').textContent   = u.email || '';\
+    \})\
+    .getCurrentUser();\
+\}\
+\
+// \uc0\u9472 \u9472  \u12518 \u12540 \u12470 \u12540 \u12489 \u12525 \u12483 \u12503 \u12480 \u12454 \u12531  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function toggleUserMenu() \{\
+  var dd = document.getElementById('userDropdown');\
+  dd.classList.toggle('open');\
+  if (dd.classList.contains('open')) loadExtraAccounts();\
+\}\
+function closeUserMenu() \{\
+  document.getElementById('userDropdown').classList.remove('open');\
+  document.getElementById('udAddForm').classList.remove('open');\
+\}\
+function toggleAddForm() \{\
+  document.getElementById('udAddForm').classList.toggle('open');\
+\}\
+\
+function loadExtraAccounts() \{\
+  google.script.run\
+    .withSuccessHandler(renderExtraAccounts)\
+    .withFailureHandler(errHandler)\
+    .getExtraAccounts();\
+\}\
+function renderExtraAccounts(accounts) \{\
+  var el = document.getElementById('udAccounts');\
+  if (!accounts || !accounts.length) \{ el.innerHTML = ''; return; \}\
+  el.innerHTML = accounts.map(function(a, i) \{\
+    var init = (a.name || a.email || '?').charAt(0).toUpperCase();\
+    return '<div class="ud-acc-item">' +\
+      '<div class="ud-sm-av" style="cursor:pointer" onclick="switchAccount(\\'' + escJ(a.url) + '\\')">' + escH(init) + '</div>' +\
+      '<div class="ud-acc-info" style="cursor:pointer" onclick="switchAccount(\\'' + escJ(a.url) + '\\')">' +\
+        '<div class="ud-acc-name">'  + escH(a.name  || '(\uc0\u21517 \u21069 \u12394 \u12375 )') + '</div>' +\
+        '<div class="ud-acc-email">' + escH(a.email || a.url || '') + '</div>' +\
+      '</div>' +\
+      '<button class="ud-acc-del" onclick="deleteAccount(' + i + ')" title="\uc0\u21066 \u38500 ">\u10005 </button>' +\
+    '</div>';\
+  \}).join('');\
+\}\
+function switchAccount(url) \{\
+  if (!url) return;\
+  if (confirm(url + ' \uc0\u12395 \u31227 \u21205 \u12375 \u12414 \u12377 \u12363 \u65311 ')) window.location.href = url;\
+\}\
+function saveAccount() \{\
+  var name  = document.getElementById('accName').value.trim();\
+  var email = document.getElementById('accEmail').value.trim();\
+  var url   = document.getElementById('accUrl').value.trim();\
+  if (!url) \{ snack('URL\uc0\u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+  google.script.run\
+    .withSuccessHandler(function(accounts) \{\
+      accounts.push(\{ name: name, email: email, url: url \});\
+      google.script.run\
+        .withSuccessHandler(function() \{\
+          snack('\uc0\u9989  \u12450 \u12459 \u12454 \u12531 \u12488 \u12434 \u36861 \u21152 \u12375 \u12414 \u12375 \u12383 ');\
+          document.getElementById('accName').value  = '';\
+          document.getElementById('accEmail').value = '';\
+          document.getElementById('accUrl').value   = '';\
+          toggleAddForm();\
+          renderExtraAccounts(accounts);\
+        \})\
+        .withFailureHandler(errHandler)\
+        .saveExtraAccounts(accounts);\
+    \})\
+    .withFailureHandler(errHandler)\
+    .getExtraAccounts();\
+\}\
+function deleteAccount(idx) \{\
+  if (!confirm('\uc0\u12371 \u12398 \u12450 \u12459 \u12454 \u12531 \u12488 \u12434 \u21066 \u38500 \u12375 \u12414 \u12377 \u12363 \u65311 ')) return;\
+  google.script.run\
+    .withSuccessHandler(function() \{ loadExtraAccounts(); snack('\uc0\u21066 \u38500 \u12375 \u12414 \u12375 \u12383 '); \})\
+    .withFailureHandler(errHandler)\
+    .removeExtraAccount(idx);\
+\}\
+\
+// \uc0\u9472 \u9472  \u12521 \u12505 \u12523 \u35501 \u12415 \u36796 \u12415  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function loadLabels() \{\
+  google.script.run\
+    .withSuccessHandler(function(data) \{\
+      var main = data.system.filter(function(l) \{ return l.section === 'main'; \});\
+      var more = data.system.filter(function(l) \{ return l.section === 'more'; \});\
+      var html = '';\
+      main.forEach(function(l) \{ html += lblHtml(l.id, l.name, l.icon, l.id === S.label, false); \});\
+      html += buildSection('more', '\uc0\u12418 \u12387 \u12392 \u35211 \u12427 ', more, true, false);\
+      if (data.categories && data.categories.length) \{\
+        html += buildSection('categories', '\uc0\u12459 \u12486 \u12468 \u12522 ', data.categories, true, false);\
+      \}\
+      html += buildSection('labels', '\uc0\u12521 \u12505 \u12523 ', data.user, false, true);\
+      document.getElementById('labelNav').innerHTML = html;\
+      refreshLabelCounts();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .getLabels();\
+\}\
+\
+function lblHtml(id, name, icon, active, withManage) \{\
+  var safeId = 'lbl_' + id.replace(/[^a-z0-9]/gi, '_');\
+  var manageHtml = '';\
+  if (withManage && id.indexOf('label:') === 0) \{\
+    var ln = id.substring(6);\
+    manageHtml =\
+      '<div class="lbl-actions">' +\
+        '<button class="lbl-action-btn" title="\uc0\u21517 \u21069 \u22793 \u26356 " ' +\
+          'onclick="event.stopPropagation();doRenameLabel(\\'' + escJ(ln) + '\\')">' +\
+          '<span class="material-icons">edit</span></button>' +\
+        '<button class="lbl-action-btn" title="\uc0\u21066 \u38500 " ' +\
+          'onclick="event.stopPropagation();doDeleteLabel(\\'' + escJ(ln) + '\\')">' +\
+          '<span class="material-icons">delete</span></button>' +\
+      '</div>';\
+  \}\
+  return '<div class="lbl' + (active ? ' active' : '') + '" id="' + safeId + '" ' +\
+    'onclick="selectLabel(\\'' + escJ(id) + '\\',\\'' + escJ(name) + '\\')">' +\
+    '<span class="material-icons">' + icon + '</span>' +\
+    '<span class="lbl-name">' + escH(name) + '</span>' +\
+    manageHtml +\
+    '</div>';\
+\}\
+\
+// \uc0\u9472 \u9472  \u12521 \u12505 \u12523 \u36984 \u25246  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function selectLabel(id, name) \{\
+  S.label = id; S.labelName = name; S.page = 0; S.searching = false;\
+  document.getElementById('listTitle').textContent = name;\
+  document.querySelectorAll('.lbl').forEach(function(el) \{ el.classList.remove('active'); \});\
+  var items = document.querySelectorAll('.lbl');\
+  for (var i = 0; i < items.length; i++) \{\
+    if (items[i].textContent.trim().replace(/\\s+/g,' ').indexOf(name) >= 0) \{\
+      items[i].classList.add('active'); break;\
+    \}\
+  \}\
+\
+  var urSec = document.getElementById('unrepliedSection');\
+  if (id === 'INBOX') \{\
+    urSec.style.display = 'block';\
+    urCollapsed = false;\
+    var body = document.getElementById('urBody');\
+    body.classList.remove('collapsed');\
+    var chev = document.getElementById('urChevron');\
+    chev.textContent = 'expand_less';\
+    chev.classList.remove('collapsed');\
+    loadUnreplied();\
+  \} else \{\
+    urSec.style.display = 'none';\
+  \}\
+\
+  backToList();\
+  loadThreads(id, 0);\
+\}\
+\
+//================================================================\
+// \uc0\u9733  \u26410 \u36820 \u20449 \u12475 \u12463 \u12471 \u12519 \u12531 \
+// ================================================================\
+\
+// \uc0\u26410 \u36820 \u20449 \u12473 \u12524 \u12483 \u12489 \u12434 \u12469 \u12540 \u12496 \u12540 \u12363 \u12425 \u21462 \u24471 \u12375 \u12390 \u25551 \u30011 \
+function loadUnreplied() \{\
+  var body = document.getElementById('urBody');\
+  if (!urCollapsed) \{\
+    body.innerHTML = '<div class="ur-loading"><div class="spinner sm"></div>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</div>';\
+  \}\
+  google.script.run\
+    .withSuccessHandler(renderUnreplied)\
+    .withFailureHandler(function(e) \{\
+      document.getElementById('urBody').innerHTML =\
+        '<div class="ur-empty">\uc0\u35501 \u12415 \u36796 \u12415 \u12395 \u22833 \u25943 \u12375 \u12414 \u12375 \u12383 </div>';\
+    \})\
+    .getUnrepliedThreads();\
+\}\
+\
+// \uc0\u26410 \u36820 \u20449 \u12522 \u12473 \u12488 \u12434 \u25551 \u30011 \
+function renderUnreplied(list) \{\
+  var badge   = document.getElementById('urBadge');\
+  var body    = document.getElementById('urBody');\
+  var hd      = document.getElementById('urHd');\
+\
+  if (!list || list.error || !list.length) \{\
+    badge.textContent = '0';\
+    badge.style.background = 'var(--sub)';\
+    hd.classList.remove('has-items');\
+    body.innerHTML = '<div class="ur-empty">\uc0\u9989  \u26410 \u36820 \u20449 \u12398 \u12513 \u12540 \u12523 \u12399 \u12354 \u12426 \u12414 \u12379 \u12435 </div>';\
+    var cbAll = document.getElementById('urCbAll');\
+    if (cbAll) \{ cbAll.style.display = 'none'; cbAll.checked = false; \}\
+    return;\
+  \}\
+\
+  badge.textContent = list.length;\
+  hd.classList.add('has-items');\
+\
+  // \uc0\u32202 \u24613 \u24230 \u21029 \u12395 \u12496 \u12483 \u12472 \u33394 \u22793 \u26356 \
+  var maxUrgency = list.reduce(function(acc, t) \{\
+    var rank = \{ critical: 3, high: 2, mid: 1, low: 0 \};\
+    return rank[t.urgency] > rank[acc] ? t.urgency : acc;\
+  \}, 'low');\
+  var badgeCls = \{ critical: 'ur-badge-crit', high: 'ur-badge-high', mid: 'ur-badge-mid' \};\
+  badge.className = 'ur-badge ' + (badgeCls[maxUrgency] || '');\
+\
+  var html = '';\
+  list.forEach(function(t) \{\
+    var urgencyLabel = \{\
+      critical: '\uc0\u9888  ' + t.waitLabel,\
+      high:     '\uc0\u8593  ' + t.waitLabel,\
+      mid:      t.waitLabel,\
+      low:      t.waitLabel,\
+    \}[t.urgency] || t.waitLabel;\
+\
+    html +=\
+      '<div class="ur-item" onclick="openThread(\\'' + escJ(t.id) + '\\',-1)">' +\
+        '<input type="checkbox" class="ur-cb ur-item-cb" data-tid="' + escH(t.id) + '" ' +\
+          'onclick="event.stopPropagation()" onchange="updateUrBulkActions()">' +\
+        '<div class="ur-urgency ' + escH(t.urgency) + '">' + escH(urgencyLabel) + '</div>' +\
+        '<div class="ur-mid">' +\
+          '<div class="ur-from">' + escH(t.from) + '</div>' +\
+          '<div class="ur-subj">' + escH(t.subject) + '</div>' +\
+        '</div>' +\
+        '<button class="ur-skip-btn" ' +\
+          'onclick="event.stopPropagation();markNotNeeded(\\'' + escJ(t.id) + '\\',this)" ' +\
+          'title="\uc0\u26410 \u36820 \u20449 \u12522 \u12473 \u12488 \u12363 \u12425 \u38500 \u22806 ">' +\
+          '<span class="material-icons">block</span>\uc0\u36820 \u20449 \u19981 \u35201 ' +\
+        '</button>' +\
+      '</div>';\
+  \});\
+  body.innerHTML = html;\
+  var cbAll = document.getElementById('urCbAll');\
+  if (cbAll) cbAll.style.display = '';\
+\}\
+\
+// \uc0\u25240 \u12426 \u12383 \u12383 \u12415 \u20999 \u12426 \u26367 \u12360 \
+function toggleUnreplied() \{\
+  urCollapsed = !urCollapsed;\
+  document.getElementById('urBody').classList.toggle('collapsed', urCollapsed);\
+  var chev = document.getElementById('urChevron');\
+  chev.textContent = urCollapsed ? 'expand_more' : 'expand_less';\
+  chev.classList.toggle('collapsed', urCollapsed);\
+\}\
+\
+// \uc0\u12300 \u36820 \u20449 \u19981 \u35201 \u12301 \u12392 \u12375 \u12390 \u12510 \u12540 \u12463 \u65288 \u26410 \u36820 \u20449 \u12522 \u12473 \u12488 \u12363 \u12425 \u38500 \u22806 \u65289 \
+function markNotNeeded(threadId, btn) \{\
+  if (btn) \{\
+    btn.disabled = true;\
+    btn.textContent = '\uc0\u38500 \u22806 \u20013 ...';\
+  \}\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  \u26410 \u36820 \u20449 \u12522 \u12473 \u12488 \u12363 \u12425 \u38500 \u22806 \u12375 \u12414 \u12375 \u12383 ');\
+      // \uc0\u23550 \u35937 \u12450 \u12452 \u12486 \u12512 \u12434 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u20184 \u12365 \u12391 \u28040 \u21435 \
+      if (btn) \{\
+        var item = btn.closest('.ur-item');\
+        if (item) \{\
+          item.style.transition = 'opacity .3s, max-height .3s';\
+          item.style.opacity = '0';\
+          item.style.overflow = 'hidden';\
+          item.style.maxHeight = item.offsetHeight + 'px';\
+          setTimeout(function() \{\
+            item.style.maxHeight = '0';\
+            item.style.padding   = '0';\
+            setTimeout(function() \{ loadUnreplied(); \}, 320);\
+          \}, 150);\
+        \}\
+      \}\
+      // \uc0\u12513 \u12452 \u12531 \u12522 \u12473 \u12488 \u12398 \u35442 \u24403 \u12450 \u12452 \u12486 \u12512 \u12398 \u12473 \u12486 \u12540 \u12479 \u12473 \u12450 \u12452 \u12467 \u12531 \u12434 \u26356 \u26032 \
+      updateThreadStatusIcon(threadId, 'not-needed');\
+    \})\
+    .withFailureHandler(errHandler)\
+    .markReplyNotNeeded(threadId, false);\
+\}\
+\
+// \uc0\u35443 \u32048 \u12506 \u12452 \u12531 \u12363 \u12425 \u12300 \u36820 \u20449 \u19981 \u35201 \u12301 \u12508 \u12479 \u12531 \u12434 \u25276 \u12375 \u12383 \u12392 \u12365 \
+function doDetailMarkNotNeeded() \{\
+  if (!S.thread) return;\
+  var btn = document.getElementById('detailSkipBtn');\
+  var icon = btn.querySelector('.material-icons');\
+  var isCurrentlyMarked = icon.textContent === 'do_not_disturb_off'; \
+\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      if (isCurrentlyMarked) \{\
+        snack('\uc0\u9989  \u36820 \u20449 \u19981 \u35201 \u12434 \u35299 \u38500 \u12375 \u12414 \u12375 \u12383 ');\
+        icon.textContent = 'do_not_disturb_on';\
+        btn.style.color  = 'var(--sub)';\
+        btn.title        = '\uc0\u36820 \u20449 \u19981 \u35201 \u12392 \u12375 \u12390 \u12510 \u12540 \u12463 ';\
+        updateThreadStatusIcon(S.thread.id, 'unreplied');\
+      \} else \{\
+        snack('\uc0\u9989  \u36820 \u20449 \u19981 \u35201 \u12392 \u12375 \u12390 \u12510 \u12540 \u12463 \u12375 \u12414 \u12375 \u12383 ');\
+        icon.textContent = 'do_not_disturb_off';\
+        btn.style.color  = 'var(--orange)';\
+        btn.title        = '\uc0\u36820 \u20449 \u19981 \u35201 \u12434 \u35299 \u38500 ';\
+        updateThreadStatusIcon(S.thread.id, 'not-needed');\
+      \}\
+      loadUnreplied();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .markReplyNotNeeded(S.thread.id, isCurrentlyMarked);\
+\}\
+\
+// \uc0\u12513 \u12452 \u12531 \u12522 \u12473 \u12488 \u12398 \u36820 \u20449 \u12473 \u12486 \u12540 \u12479 \u12473 \u12450 \u12452 \u12467 \u12531 \u12434 \u21205 \u30340 \u12395 \u26356 \u26032 \
+function updateThreadStatusIcon(threadId, newStatus) \{\
+  document.querySelectorAll('.t-item').forEach(function(item) \{\
+    if (item.getAttribute('data-tid') === threadId) \{\
+      var statusEl = item.querySelector('.t-reply-status');\
+      if (statusEl) \{\
+        statusEl.className = 't-reply-status ' + newStatus;\
+        var iconMap = \{\
+          replied:    \{ icon: 'reply',             title: '\uc0\u36820 \u20449 \u28168 \u12415 ' \},\
+          'not-needed': \{ icon: 'do_not_disturb_on', title: '\uc0\u36820 \u20449 \u19981 \u35201 ' \},\
+          unreplied:  \{ icon: 'schedule',          title: '\uc0\u26410 \u36820 \u20449 ' \},\
+        \};\
+        var info = iconMap[newStatus] || iconMap.unreplied;\
+        statusEl.innerHTML = '<span class="material-icons" title="' + info.title + '">' + info.icon + '</span>';\
+      \}\
+    \}\
+  \});\
+\}\
+\
+// \uc0\u9472 \u9472  \u12473 \u12524 \u12483 \u12489 \u19968 \u35239  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function loadThreads(labelId, start) \{\
+  document.getElementById('threadList').innerHTML =\
+    '<div class="loading"><div class="spinner"></div><span>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</span></div>';\
+  google.script.run\
+    .withSuccessHandler(renderList)\
+    .withFailureHandler(errHandler)\
+    .getThreads(labelId, start);\
+\}\
+\
+function renderList(threads) \{\
+  S.threads = threads;\
+  var el = document.getElementById('threadList');\
+  if (!threads || threads.error) \{\
+    el.innerHTML = '<div class="empty"><span class="material-icons">error_outline</span>' +\
+      '<span>' + escH(threads && threads.error ? threads.error : '\uc0\u12456 \u12521 \u12540 ') + '</span></div>';\
+    return;\
+  \}\
+  if (!threads.length) \{\
+    el.innerHTML = '<div class="empty"><span class="material-icons">inbox</span><span>\uc0\u12513 \u12540 \u12523 \u12399 \u12354 \u12426 \u12414 \u12379 \u12435 </span></div>';\
+    updatePg(0); return;\
+  \}\
+\
+  var html = '';\
+  threads.forEach(function(t, i) \{\
+    var starCls = t.starred ? 'on' : '';\
+    var starIco = t.starred ? 'star' : 'star_border';\
+\
+    // \uc0\u9472 \u9472  \u36820 \u20449 \u12473 \u12486 \u12540 \u12479 \u12473 \u12450 \u12452 \u12467 \u12531  \u9472 \u9472 \
+    // replied:    \uc0\u32209 \u12398 \u12300 reply\u12301 \u12450 \u12452 \u12467 \u12531 \
+    // not-needed: \uc0\u12464 \u12524 \u12540 \u12398 \u12300 do_not_disturb_on\u12301 \u12450 \u12452 \u12467 \u12531 \
+    // unreplied:  \uc0\u12458 \u12524 \u12531 \u12472 \u12398 \u12300 schedule\u12301 \u12450 \u12452 \u12467 \u12531 \u65288 \u21463 \u20449 \u12488 \u12524 \u12452 \u12398 \u12415 \u65289 \
+    var statusCls, statusIco, statusTitle;\
+    if (t.replied) \{\
+      statusCls   = 'replied';\
+      statusIco   = 'reply';\
+      statusTitle = '\uc0\u36820 \u20449 \u28168 \u12415 ';\
+    \} else if (t.replyNotNeeded) \{\
+      statusCls   = 'not-needed';\
+      statusIco   = 'do_not_disturb_on';\
+      statusTitle = '\uc0\u36820 \u20449 \u19981 \u35201 ';\
+    \} else if (S.label === 'INBOX' && !t.isSent && !t.isDraft) \{\
+      statusCls   = 'unreplied';\
+      statusIco   = 'schedule';\
+      statusTitle = '\uc0\u26410 \u36820 \u20449 ';\
+    \} else \{\
+      statusCls = statusIco = statusTitle = '';\
+    \}\
+\
+    var statusHtml = statusIco\
+      ? '<span class="t-reply-status ' + statusCls + '">' +\
+          '<span class="material-icons" title="' + statusTitle + '">' + statusIco + '</span>' +\
+        '</span>'\
+      : '<span class="t-reply-status"></span>';\
+\
+    var markBtn = t.unread\
+      ? '<button class="t-mark-btn" onclick="event.stopPropagation();markItemRead(\\'' + escJ(t.id) + '\\',' + i + ',this)" title="\uc0\u26082 \u35501 \u12395 \u12377 \u12427 ">' +\
+          '<span class="material-icons">drafts</span></button>'\
+      : '<button class="t-mark-btn" onclick="event.stopPropagation();markItemUnread(\\'' + escJ(t.id) + '\\',' + i + ',this)" title="\uc0\u26410 \u35501 \u12395 \u12377 \u12427 ">' +\
+          '<span class="material-icons">mark_email_unread</span></button>';\
+\
+    html +=\
+      '<div class="t-item ' + (t.unread ? 'unread' : 'read') + '" ' +\
+        'id="t-item-' + i + '" ' +\
+        'data-tid="' + escH(t.id) + '" ' +\
+        'onclick="openThread(\\'' + escJ(t.id) + '\\',' + i + ')">' +\
+        '<input type="checkbox" class="t-cb" onclick="event.stopPropagation()" onchange="updateBulkActions()">' +\
+        '<button class="t-star ' + starCls + '" onclick="event.stopPropagation();doStar(\\'' + escJ(t.id) + '\\',' + i + ',this)">' +\
+          '<span class="material-icons">' + starIco + '</span></button>' +\
+        '<span class="t-from">' + escH(t.from) + '</span>' +\
+        '<div class="t-mid">' +\
+          '<span class="t-subject">' + escH(t.subject) + '</span>' +\
+          '<span class="t-snippet"> \'97 ' + escH(t.snippet || '') + '</span>' +\
+        '</div>' +\
+        (t.count > 1 ? '<span class="t-count">(' + t.count + ')</span>' : '') +\
+        statusHtml +\
+        markBtn +\
+        '<span class="t-date">' + escH(t.date) + '</span>' +\
+      '</div>';\
+  \});\
+  el.innerHTML = html;\
+  updatePg(threads.length);\
+\}\
+\
+// \uc0\u9472 \u9472  \u12473 \u12524 \u12483 \u12489 \u35443 \u32048  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function openThread(threadId, idx) \{\
+  S.thread = \{ id: threadId, idx: idx, data: null \};\
+\
+  var item = document.getElementById('t-item-' + idx);\
+  if (item && item.classList.contains('unread')) \{\
+    item.classList.remove('unread');\
+    item.classList.add('read');\
+  \}\
+\
+  document.getElementById('listPane').style.display  = 'none';\
+  var dp = document.getElementById('detailPane');\
+  dp.style.display = 'flex';\
+\
+  document.getElementById('compBody').innerHTML = '';\
+  fileStores.replyFiles = [];\
+  document.getElementById('replyAttachList').innerHTML = '';\
+  document.getElementById('aiResult').className  = 'ai-result';\
+  document.getElementById('aiActions').className = 'ai-actions';\
+  document.getElementById('aiPanel').classList.remove('open');\
+  document.getElementById('msgsArea').innerHTML =\
+    '<div class="loading"><div class="spinner"></div><span>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</span></div>';\
+\
+  var mBtn = document.getElementById('markUnreadBtn');\
+  if (mBtn) \{\
+    mBtn.title = '\uc0\u26410 \u35501 \u12395 \u12377 \u12427 ';\
+    mBtn.querySelector('.material-icons').textContent = 'mark_email_unread';\
+    mBtn.onclick = doMarkUnread;\
+  \}\
+\
+  // \uc0\u12300 \u36820 \u20449 \u19981 \u35201 \u12301 \u12508 \u12479 \u12531 \u12398 \u29366 \u24907 \u12434 \u12522 \u12475 \u12483 \u12488 \
+  var skipBtn  = document.getElementById('detailSkipBtn');\
+  var skipIcon = skipBtn && skipBtn.querySelector('.material-icons');\
+  if (skipIcon) \{\
+    skipIcon.textContent = 'do_not_disturb_on';\
+    skipBtn.style.color  = 'var(--sub)';\
+    skipBtn.title        = '\uc0\u36820 \u20449 \u19981 \u35201 \u12392 \u12375 \u12390 \u12510 \u12540 \u12463 ';\
+  \}\
+\
+  google.script.run\
+    .withSuccessHandler(function(data) \{\
+      renderDetail(data);\
+      refreshLabelCounts();\
+      // \uc0\u36820 \u20449 \u19981 \u35201 \u12481 \u12455 \u12483 \u12463 \u65288 \u29694 \u22312 \u12398 \u12473 \u12524 \u12483 \u12489 \u12364 \u19981 \u35201 \u12522 \u12473 \u12488 \u12395 \u20837 \u12387 \u12390 \u12356 \u12427 \u12363 \u65289 \
+      checkNotNeededStatus(threadId);\
+    \})\
+    .withFailureHandler(errHandler)\
+    .getThreadDetail(threadId);\
+\}\
+\
+// \uc0\u12300 \u36820 \u20449 \u19981 \u35201 \u12301 \u12508 \u12479 \u12531 \u12398 \u29366 \u24907 \u12434 \u30906 \u35469 \u12375 \u12390 UI\u12434 \u26356 \u26032 \
+function checkNotNeededStatus(threadId) \{\
+  // threadList\uc0\u12398 data-tid\u12363 \u12425 \u35442 \u24403 \u12450 \u12452 \u12486 \u12512 \u12434 \u25506 \u12375 \u12390 replyNotNeeded\u12434 \u35211 \u12427 \
+  var el = document.querySelector('[data-tid="' + threadId + '"]');\
+  if (!el) return;\
+  var statusEl = el.querySelector('.t-reply-status');\
+  if (!statusEl) return;\
+  var isNotNeeded = statusEl.classList.contains('not-needed');\
+  var skipBtn  = document.getElementById('detailSkipBtn');\
+  var skipIcon = skipBtn && skipBtn.querySelector('.material-icons');\
+  if (skipIcon && isNotNeeded) \{\
+    skipIcon.textContent = 'do_not_disturb_off';\
+    skipBtn.style.color  = 'var(--orange)';\
+    skipBtn.title        = '\uc0\u36820 \u20449 \u19981 \u35201 \u12434 \u35299 \u38500 ';\
+  \}\
+\}\
+\
+function renderDetail(data) \{\
+  if (data.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + data.error); return; \}\
+  S.thread.data = data;\
+\
+  document.getElementById('detailSubject').textContent = data.subject;\
+  var starBtn  = document.getElementById('starBtn');\
+  var starIcon = starBtn.querySelector('.material-icons');\
+  starIcon.textContent = data.starred ? 'star' : 'star_border';\
+  starBtn.style.color  = data.starred ? '#f4b400' : '';\
+\
+  var last = data.messages[data.messages.length - 1];\
+  document.getElementById('replyLabel').textContent = senderName(last.from) + ' \uc0\u12395 \u36820 \u20449 ';\
+\
+  var area = document.getElementById('msgsArea');\
+  var html = '';\
+  data.messages.forEach(function(msg, i) \{\
+    var isLast   = i === data.messages.length - 1;\
+    var init     = (msg.from || '?').charAt(0).toUpperCase();\
+    var cIdx     = 'c' + (hashStr(msg.from) % 8);\
+    var bodyHtml = buildEmailContent(msg.body, msg.plain);\
+\
+    // \uc0\u9472 \u9472  \u28155 \u20184 \u12501 \u12449 \u12452 \u12523 \u12481 \u12483 \u12503 \u12434 \u20808 \u12395 \u32068 \u12415 \u31435 \u12390 \u12427  \u9472 \u9472 \
+    var attachHtml = '';\
+    if (msg.attachments && msg.attachments.length > 0) \{\
+      var chips = msg.attachments.map(function(a, ai) \{\
+        var icon = getAttachIcon(a.mimeType);\
+        return '<div class="msg-attach-chip" ' +\
+          'id="attach-' + i + '-' + ai + '" ' +\
+          'onclick="previewAttachment(\\'' + escJ(S.thread.id) + '\\',' + i + ',' + ai + ',this)">' +\
+          '<span class="material-icons">' + icon + '</span>' +\
+          '<span class="msg-attach-name" title="' + escH(a.name) + '">' + escH(a.name) + '</span>' +\
+          '<span class="msg-attach-size">' + fmtBytes(a.size) + '</span>' +\
+        '</div>';\
+      \}).join('');\
+      attachHtml = '<div class="msg-attachments">' + chips + '</div>';\
+    \}\
+\
+    // \uc0\u9472 \u9472  \u12459 \u12540 \u12489 HTML\u12434 \u32068 \u12415 \u31435 \u12390 \u12427  \u9472 \u9472 \
+    html +=\
+      '<div class="msg-card">' +\
+        '<div class="msg-hd" onclick="toggleMsg(' + i + ')">' +\
+          '<div class="msg-av ' + cIdx + '">' + escH(init) + '</div>' +\
+          '<div class="msg-meta">' +\
+            '<div class="msg-from">' + escH(msg.from) + '</div>' +\
+            '<div class="msg-to">To: ' + escH(msg.to || '') +\
+              (msg.cc ? ' &nbsp;Cc: ' + escH(msg.cc) : '') + '</div>' +\
+          '</div>' +\
+          '<span class="msg-date">' + escH(msg.dateStr || msg.date) + '</span>' +\
+          '<span class="material-icons msg-toggle">expand_' + (isLast ? 'less' : 'more') + '</span>' +\
+        '</div>' +\
+        '<div class="msg-body' + (isLast ? ' open' : '') + '" id="mb-' + i + '">' +\
+          bodyHtml +\
+        '</div>' +\
+        attachHtml +   // \uc0\u8592  \u32068 \u12415 \u31435 \u12390 \u28168 \u12415 \u12398 \u25991 \u23383 \u21015 \u12434 \u12371 \u12371 \u12391 \u36899 \u32080 \
+      '</div>';\
+  \});\
+  area.innerHTML = html;\
+\}\
+\
+function buildEmailContent(htmlBody, plainBody) \{\
+  var html  = (htmlBody  || '').trim();\
+  var plain = (plainBody || '').trim();\
+  if (!html && !plain) return '<div class="email-plain">(\uc0\u26412 \u25991 \u12394 \u12375 )</div>';\
+\
+  var cleaned = html\
+    .replace(/<style\\b[^<]*(?:(?!<\\/style>)<[^<]*)*<\\/style>/gi, '')\
+    .replace(/<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>/gi, '')\
+    .replace(/\\s+on\\w+="[^"]*"/gi, '')\
+    .replace(/\\s+on\\w+='[^']*'/gi, '')\
+    .replace(/href="javascript:[^"]*"/gi, 'href="#"')\
+    .replace(/src="data:(?!image)[^"]*"/gi, 'src=""');\
+\
+  var hasStructure = /<(br|p|div|table|ul|ol|h[1-6]|blockquote)\\b/i.test(cleaned);\
+  if (!hasStructure) \{\
+    var safeText = plain || cleaned.replace(/<[^>]+>/g, '');\
+    return '<div class="email-plain">' + escH(safeText) + '</div>';\
+  \}\
+  return '<div class="email-html">' + cleaned + '</div>';\
+\}\
+\
+function toggleMsg(idx) \{\
+  var body = document.getElementById('mb-' + idx);\
+  var hd   = body.previousElementSibling;\
+  var icon = hd.querySelector('.msg-toggle');\
+  var open = body.classList.toggle('open');\
+  icon.textContent = open ? 'expand_less' : 'expand_more';\
+\}\
+\
+// \uc0\u9472 \u9472  \u36820 \u20449 \u36865 \u20449  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function doSendReply() \{\
+  var div   = document.getElementById('compBody');\
+  var hBody = div.innerHTML.trim();\
+  var pBody = div.innerText || div.textContent || '';\
+  if (!hBody || hBody === '<br>') \{ snack('\uc0\u36820 \u20449 \u20869 \u23481 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+\
+  var tid = S.thread && S.thread.id;\
+  if (!tid) return;\
+\
+  var bcc = (document.getElementById('replyBcc') || \{\}).value || '';\
+\
+  if (replyMode === 'forward') \{\
+    var fwTo = document.getElementById('replyTo').value.trim();\
+    if (!fwTo) \{ snack('\uc0\u36578 \u36865 \u20808 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+    snack('\uc0\u36578 \u36865 \u20013 ...');\
+    google.script.run\
+      .withSuccessHandler(function(r) \{\
+        if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+        snack('\uc0\u9989  \u36578 \u36865 \u12375 \u12414 \u12375 \u12383 ');\
+        clearComposer(); setReplyMode('reply');\
+      \})\
+      .withFailureHandler(errHandler)\
+      .forwardEmailEx(tid, fwTo, hBody, pBody);\
+    return;\
+  \}\
+\
+  if (replyMode === 'all') \{\
+    var toExtra = document.getElementById('replyTo').value.trim();\
+    var ccExtra = document.getElementById('replyCc').value.trim();\
+    snack('\uc0\u36865 \u20449 \u20013 ...');\
+    google.script.run\
+      .withSuccessHandler(function(r) \{\
+        if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+        snack('\uc0\u9989  \u20840 \u21729 \u12395 \u36820 \u20449 \u12375 \u12414 \u12375 \u12383 ');\
+        clearComposer(); setReplyMode('reply');\
+        openThread(tid, S.thread.idx);\
+        // \uc0\u36820 \u20449 \u24460 \u12395 \u26410 \u36820 \u20449 \u12522 \u12473 \u12488 \u12434 \u26356 \u26032 \
+        if (S.label === 'INBOX') loadUnreplied();\
+      \})\
+      .withFailureHandler(errHandler)\
+      .sendReplyAllEx(tid, toExtra, ccExtra, hBody, pBody, fileStores.replyFiles);\
+    return;\
+  \}\
+\
+  snack('\uc0\u36865 \u20449 \u20013 ...');\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  \u36865 \u20449 \u12375 \u12414 \u12375 \u12383 ');\
+      div.innerHTML = '';\
+      fileStores.replyFiles = [];\
+      document.getElementById('replyAttachList').innerHTML = '';\
+      openThread(tid, S.thread.idx);\
+      // \uc0\u36820 \u20449 \u24460 \u12395 \u26410 \u36820 \u20449 \u12522 \u12473 \u12488 \u12434 \u26356 \u26032 \
+      if (S.label === 'INBOX') loadUnreplied();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .sendReplyEx(tid, hBody, pBody, fileStores.replyFiles, bcc.trim());\
+\}\
+\
+// \uc0\u9472 \u9472  \u26032 \u35215 \u36865 \u20449  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function doSendNew() \{\
+  var to      = document.getElementById('cwTo').value.trim();\
+  var subject = document.getElementById('cwSubject').value.trim();\
+  var cc      = (document.getElementById('cwCc')  || \{\}).value || '';\
+  var bcc     = (document.getElementById('cwBcc') || \{\}).value || '';\
+  var div     = document.getElementById('cwBody');\
+  var hBody   = div.innerHTML.trim();\
+  var pBody   = div.innerText || div.textContent || '';\
+\
+  if (!to)                        \{ snack('\uc0\u23451 \u20808 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+  if (!subject)                   \{ snack('\uc0\u20214 \u21517 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+  if (!hBody || hBody === '<br>') \{ snack('\uc0\u26412 \u25991 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+\
+  snack('\uc0\u36865 \u20449 \u20013 ...');\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  \u36865 \u20449 \u12375 \u12414 \u12375 \u12383 ');\
+      fileStores.cwFiles = [];\
+      document.getElementById('cwAttachList').innerHTML = '';\
+      closeCompose();\
+      refreshLabelCounts();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .sendNewEmailEx(to, subject, hBody, pBody, fileStores.cwFiles, cc.trim(), bcc.trim());\
+\}\
+\
+// \uc0\u9472 \u9472  \u26360 \u24335 \u12484 \u12540 \u12523 \u12496 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function fmt(cmd, val) \{ document.execCommand(cmd, false, val || null); \}\
+\
+function insertLink(targetId) \{\
+  var url = prompt('\uc0\u12522 \u12531 \u12463 \u20808 \u12398 URL\u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 :', 'https://');\
+  if (!url) return;\
+  var el = document.getElementById(targetId);\
+  el.focus();\
+  var sel = window.getSelection();\
+  if (sel && sel.toString().length > 0) \{\
+    document.execCommand('createLink', false, url);\
+  \} else \{\
+    document.execCommand('insertHTML', false,\
+      '<a href="' + escH(url) + '" target="_blank">' + escH(url) + '</a>');\
+  \}\
+\}\
+\
+// \uc0\u9472 \u9472  \u28155 \u20184 \u12501 \u12449 \u12452 \u12523  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function pickFile(inputId) \{ document.getElementById(inputId).click(); \}\
+\
+function onFileSelect(e, listId, storeKey) \{\
+  var files = Array.from(e.target.files);\
+  files.forEach(function(f) \{\
+    var reader = new FileReader();\
+    reader.onload = function(ev) \{\
+      var b64 = ev.target.result.split(',')[1];\
+      fileStores[storeKey].push(\{ name: f.name, mimeType: f.type || 'application/octet-stream', data: b64, size: f.size \});\
+      renderAttachList(listId, storeKey);\
+    \};\
+    reader.readAsDataURL(f);\
+  \});\
+  e.target.value = '';\
+\}\
+\
+function renderAttachList(listId, storeKey) \{\
+  var el    = document.getElementById(listId);\
+  var files = fileStores[storeKey];\
+  el.innerHTML = files.map(function(f, i) \{\
+    return '<div class="attach-chip">' +\
+      '<span class="material-icons">attach_file</span>' +\
+      '<span class="chip-name" title="' + escH(f.name) + '">' + escH(f.name) + ' (' + fmtBytes(f.size) + ')</span>' +\
+      '<button class="attach-del" onclick="removeFile(\\'' + listId + '\\',\\'' + storeKey + '\\',' + i + ')">\uc0\u10005 </button>' +\
+    '</div>';\
+  \}).join('');\
+\}\
+\
+function removeFile(listId, storeKey, idx) \{\
+  fileStores[storeKey].splice(idx, 1);\
+  renderAttachList(listId, storeKey);\
+\}\
+\
+function fmtBytes(b) \{\
+  if (b < 1024)        return b + 'B';\
+  if (b < 1024 * 1024) return Math.round(b / 1024) + 'KB';\
+  return (b / (1024 * 1024)).toFixed(1) + 'MB';\
+\}\
+\
+// \uc0\u9472 \u9472  AI \u36820 \u20449 \u29983 \u25104  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function doGenerate() \{\
+  if (!S.thread || !S.thread.data) \{ snack('\uc0\u12513 \u12540 \u12523 \u12434 \u38283 \u12356 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+  var msgs  = S.thread.data.messages;\
+  var last  = msgs[msgs.length - 1];\
+  var plain = last.plain || '';\
+  var req   = document.getElementById('aiReq').value;\
+\
+  var btn = document.getElementById('aiGenBtn');\
+  btn.disabled = true;\
+  btn.innerHTML = '<div class="spinner sm"></div>&nbsp;\uc0\u29983 \u25104 \u20013 ...';\
+\
+  document.getElementById('aiResult').className  = 'ai-result';\
+  document.getElementById('aiActions').className = 'ai-actions';\
+\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">auto_awesome</span> \uc0\u36820 \u20449 \u12434 \u29983 \u25104 ';\
+      if (r.error) \{\
+        document.getElementById('aiResult').textContent = '\uc0\u10060  ' + r.error;\
+        document.getElementById('aiResult').className   = 'ai-result show';\
+        return;\
+      \}\
+      document.getElementById('aiResult').textContent = r.reply;\
+      document.getElementById('aiResult').className   = 'ai-result show';\
+      document.getElementById('aiActions').className  = 'ai-actions show';\
+    \})\
+    .withFailureHandler(function(e) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">auto_awesome</span> \uc0\u36820 \u20449 \u12434 \u29983 \u25104 ';\
+      errHandler(e);\
+    \})\
+    .generateAiReply(plain, req, S.model);\
+\}\
+\
+function useResult() \{\
+  var txt = document.getElementById('aiResult').textContent;\
+  var div = document.getElementById('compBody');\
+  div.innerHTML = escH(txt).replace(/\\n/g, '<br>');\
+  document.getElementById('aiPanel').classList.remove('open');\
+  div.focus();\
+  snack('\uc0\u9989  AI\u29983 \u25104 \u25991 \u12434 \u25407 \u20837 \u12375 \u12414 \u12375 \u12383  \'97 \u24517 \u35201 \u12395 \u24540 \u12376 \u12390 \u32232 \u38598 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 ');\
+\}\
+\
+function toggleAI() \{ document.getElementById('aiPanel').classList.toggle('open'); \}\
+\
+function pickModel(btn) \{\
+  document.querySelectorAll('#modelRow .model-chip').forEach(function(b) \{ b.classList.remove('on'); \});\
+  btn.classList.add('on');\
+  S.model = btn.dataset.m;\
+\}\
+\
+// \uc0\u9472 \u9472  \u26908 \u32034  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function onSearchKey(e) \{\
+  if (e.key !== 'Enter') return;\
+  var q = document.getElementById('searchInput').value.trim();\
+  if (!q) return;\
+  S.searching = true; S.searchQ = q; S.page = 0;\
+  document.getElementById('listTitle').textContent = '"' + q + '" \uc0\u12398 \u26908 \u32034 \u32080 \u26524 ';\
+  document.getElementById('unrepliedSection').style.display = 'none';\
+  var utSec = document.getElementById('unsentTray');\
+  if (utSec) utSec.style.display = 'none';\
+  backToList();\
+  document.getElementById('threadList').innerHTML =\
+    '<div class="loading"><div class="spinner"></div><span>\uc0\u26908 \u32034 \u20013 ...</span></div>';\
+  google.script.run\
+    .withSuccessHandler(renderList)\
+    .withFailureHandler(errHandler)\
+    .searchEmails(q, 0);\
+\}\
+\
+// \uc0\u9472 \u9472  \u12506 \u12540 \u12472 \u12493 \u12540 \u12471 \u12519 \u12531  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function nextPage() \{\
+  S.page++;\
+  var start = S.page * S.pageSize;\
+  document.getElementById('threadList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';\
+  if (S.searching) \{\
+    google.script.run.withSuccessHandler(renderList).withFailureHandler(errHandler).searchEmails(S.searchQ, start);\
+  \} else \{\
+    google.script.run.withSuccessHandler(renderList).withFailureHandler(errHandler).getThreads(S.label, start);\
+  \}\
+\}\
+function prevPage() \{\
+  if (S.page <= 0) return;\
+  S.page--;\
+  var start = S.page * S.pageSize;\
+  document.getElementById('threadList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';\
+  if (S.searching) \{\
+    google.script.run.withSuccessHandler(renderList).withFailureHandler(errHandler).searchEmails(S.searchQ, start);\
+  \} else \{\
+    google.script.run.withSuccessHandler(renderList).withFailureHandler(errHandler).getThreads(S.label, start);\
+  \}\
+\}\
+function updatePg(count) \{\
+  var from = S.page * S.pageSize + 1;\
+  var to   = S.page * S.pageSize + count;\
+  document.getElementById('pgRange').textContent = count > 0 ? from + '\'96' + to : '0';\
+  document.getElementById('btnPrev').disabled    = S.page <= 0;\
+  document.getElementById('btnNext').disabled    = count < S.pageSize;\
+\}\
+function backToList() \{\
+  document.getElementById('detailPane').style.display = 'none';\
+  document.getElementById('listPane').style.display   = '';\
+\}\
+function refreshList() \{\
+  if (S.searching) \{\
+    google.script.run.withSuccessHandler(renderList).withFailureHandler(errHandler)\
+      .searchEmails(S.searchQ, S.page * S.pageSize);\
+  \} else \{\
+    loadThreads(S.label, S.page * S.pageSize);\
+  \}\
+  if (S.label === 'INBOX') loadUnreplied();\
+\}\
+\
+// \uc0\u9472 \u9472  \u12473 \u12479 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function doStar(threadId, idx, btn) \{\
+  var on = btn.classList.toggle('on');\
+  btn.querySelector('.material-icons').textContent = on ? 'star' : 'star_border';\
+  google.script.run.withSuccessHandler(function()\{\}).withFailureHandler(errHandler).toggleStar(threadId, on);\
+\}\
+function toggleDetailStar() \{\
+  if (!S.thread) return;\
+  var btn  = document.getElementById('starBtn');\
+  var icon = btn.querySelector('.material-icons');\
+  var on   = icon.textContent === 'star_border';\
+  icon.textContent = on ? 'star' : 'star_border';\
+  btn.style.color  = on ? '#f4b400' : '';\
+  google.script.run.withSuccessHandler(function()\{\}).withFailureHandler(errHandler).toggleStar(S.thread.id, on);\
+\}\
+\
+// \uc0\u9472 \u9472  \u12468 \u12511 \u31665  / \u12450 \u12540 \u12459 \u12452 \u12502  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function doTrash() \{\
+  if (!S.thread) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u12468 \u12511 \u31665 \u12395 \u31227 \u21205 \u12375 \u12414 \u12375 \u12383 ');\
+      backToList(); refreshList(); refreshLabelCounts();\
+      if (S.label === 'INBOX') loadUnreplied();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .trashThread(S.thread.id);\
+\}\
+function doArchive() \{\
+  if (!S.thread) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u12450 \u12540 \u12459 \u12452 \u12502 \u12375 \u12414 \u12375 \u12383 ');\
+      backToList(); refreshList(); refreshLabelCounts();\
+      if (S.label === 'INBOX') loadUnreplied();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .archiveThread(S.thread.id);\
+\}\
+\
+// \uc0\u9472 \u9472  \u26032 \u35215 \u20316 \u25104  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function openCompose() \{\
+  document.getElementById('composeWin').classList.add('open');\
+  document.getElementById('cwTo').focus();\
+  preloadContacts();\
+\}\
+function closeCompose() \{\
+  document.getElementById('composeWin').classList.remove('open');\
+  document.getElementById('cwTo').value       = '';\
+  document.getElementById('cwSubject').value  = '';\
+  document.getElementById('cwBody').innerHTML = '';\
+  fileStores.cwFiles = [];\
+  document.getElementById('cwAttachList').innerHTML = '';\
+  var bccInput = document.getElementById('cwBcc');\
+  if (bccInput) bccInput.value = '';\
+  var bccRow = document.getElementById('cwBccRow');\
+  if (bccRow) bccRow.style.display = 'none';\
+\}\
+\
+// \uc0\u9472 \u9472  \u35373 \u23450  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function openSettings() \{\
+  document.getElementById('settingsOverlay').classList.add('open');\
+  google.script.run\
+    .withSuccessHandler(function(sig) \{\
+      document.getElementById('inSignature').value = sig || '';\
+    \})\
+    .getSignature();\
+\}\
+function closeSettings() \{ document.getElementById('settingsOverlay').classList.remove('open'); \}\
+\
+function checkKeys() \{\
+  google.script.run.withSuccessHandler(function(s) \{\
+    document.getElementById('dotGemini').className = 'dot ' + (s.hasGemini ? 'g' : 'r');\
+    document.getElementById('dotClaude').className = 'dot ' + (s.hasClaude  ? 'g' : 'r');\
+  \}).getApiKeyStatus();\
+\}\
+function saveSettings() \{\
+  var gemini = document.getElementById('inGemini').value.trim();\
+  var claude = document.getElementById('inClaude').value.trim();\
+  var sig    = document.getElementById('inSignature').value;\
+  google.script.run.withFailureHandler(errHandler).saveSignature(sig);\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (!r.success) return;\
+      snack('\uc0\u9989  \u35373 \u23450 \u12434 \u20445 \u23384 \u12375 \u12414 \u12375 \u12383 ');\
+      closeSettings(); checkKeys();\
+      document.getElementById('inGemini').value = '';\
+      document.getElementById('inClaude').value = '';\
+    \})\
+    .withFailureHandler(errHandler)\
+    .saveApiKeys(\{ gemini: gemini, claude: claude \});\
+\}\
+\
+// \uc0\u9472 \u9472  \u12469 \u12452 \u12489 \u12496 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function toggleSidebar() \{ document.getElementById('sidebar').classList.toggle('col'); \}\
+\
+// \uc0\u9472 \u9472  \u12467 \u12531 \u12509 \u12540 \u12470 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function clearComposer() \{\
+  document.getElementById('compBody').innerHTML = '';\
+  fileStores.replyFiles = [];\
+  document.getElementById('replyAttachList').innerHTML = '';\
+  document.getElementById('aiPanel').classList.remove('open');\
+  document.getElementById('aiResult').className  = 'ai-result';\
+  document.getElementById('aiActions').className = 'ai-actions';\
+\}\
+\
+function checkAll(cb) \{\
+  document.querySelectorAll('.t-cb').forEach(function(c) \{ c.checked = cb.checked; \});\
+  updateBulkActions();\
+\}\
+function updateBulkActions() \{\
+  var checked = document.querySelectorAll('.t-cb:checked');\
+  var bar = document.getElementById('bulkActions');\
+  var cnt = document.getElementById('bulkCount');\
+  if (checked.length > 0) \{\
+    bar.style.display = 'flex';\
+    cnt.textContent   = checked.length + '\uc0\u20214 \u36984 \u25246 \u20013 ';\
+  \} else \{\
+    bar.style.display = 'none';\
+  \}\
+\}\
+function getCheckedThreadIds() \{\
+  var ids = [];\
+  document.querySelectorAll('.t-cb:checked').forEach(function(cb) \{\
+    var item = cb.closest('.t-item');\
+    if (item) ids.push(item.getAttribute('data-tid'));\
+  \});\
+  return ids;\
+\}\
+\
+function doBulkTrash() \{\
+  var ids = getCheckedThreadIds();\
+  if (!ids.length) return;\
+  if (!confirm(ids.length + '\uc0\u20214 \u12434 \u12468 \u12511 \u31665 \u12395 \u31227 \u21205 \u12375 \u12414 \u12377 \u12363 \u65311 ')) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      snack('\uc0\u9989  ' + ids.length + '\u20214 \u12434 \u21066 \u38500 \u12375 \u12414 \u12375 \u12383 ');\
+      refreshList();\
+      if (S.label === 'INBOX') \{ loadUnreplied(); \}\
+    \})\
+    .withFailureHandler(errHandler)\
+    .bulkTrash(ids);\
+\}\
+\
+function doBulkArchive() \{\
+  var ids = getCheckedThreadIds();\
+  if (!ids.length) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      snack('\uc0\u9989  ' + ids.length + '\u20214 \u12434 \u12450 \u12540 \u12459 \u12452 \u12502 \u12375 \u12414 \u12375 \u12383 ');\
+      refreshList();\
+      if (S.label === 'INBOX') \{ loadUnreplied(); \}\
+    \})\
+    .withFailureHandler(errHandler)\
+    .bulkArchive(ids);\
+\}\
+function doBulkNotNeeded() \{\
+  var ids = getCheckedThreadIds();\
+  if (!ids.length) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      snack('\uc0\u9989  ' + ids.length + '\u20214 \u12434 \u36820 \u20449 \u19981 \u35201 \u12395 \u12375 \u12414 \u12375 \u12383 ');\
+      ids.forEach(function(id) \{ updateThreadStatusIcon(id, 'not-needed'); \});\
+      if (S.label === 'INBOX') loadUnreplied();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .bulkMarkNotNeeded(ids);\
+\}\
+\
+// \uc0\u9472 \u9472  \u36820 \u20449 \u12514 \u12540 \u12489 \u20999 \u12426 \u26367 \u12360  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function setReplyMode(mode) \{\
+  replyMode = mode;\
+  var label   = document.getElementById('replyLabel');\
+  var toRow   = document.getElementById('replyToRow');\
+  var toInput = document.getElementById('replyTo');\
+\
+  if (mode === 'all') \{\
+    label.textContent = '\uc0\u20840 \u21729 \u12395 \u36820 \u20449 ';\
+    toRow.style.display = 'flex';\
+    if (S.thread && S.thread.data) \{\
+      var last = S.thread.data.messages[S.thread.data.messages.length - 1];\
+      toInput.value = last.to || '';\
+      document.getElementById('replyCc').value = last.cc || '';\
+    \}\
+  \} else if (mode === 'forward') \{\
+    label.textContent = '\uc0\u36578 \u36865 ';\
+    toRow.style.display = 'flex';\
+    toInput.value = '';\
+    toInput.placeholder = '\uc0\u36578 \u36865 \u20808 \u12398 \u12450 \u12489 \u12524 \u12473 ';\
+    toInput.focus();\
+  \} else \{\
+    label.textContent = S.thread && S.thread.data\
+      ? senderName(S.thread.data.messages[S.thread.data.messages.length - 1].from) + ' \uc0\u12395 \u36820 \u20449 '\
+      : '\uc0\u36820 \u20449 ';\
+    toRow.style.display = 'none';\
+  \}\
+\}\
+\
+// \uc0\u9472 \u9472  BCC\u20999 \u12426 \u26367 \u12360  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function toggleCwBcc() \{\
+  var row = document.getElementById('cwBccRow');\
+  var show = row.style.display === 'none';\
+  row.style.display = show ? 'flex' : 'none';\
+  if (show) document.getElementById('cwBcc').focus();\
+\}\
+function toggleReplyBcc() \{\
+  var row = document.getElementById('replyBccRow');\
+  var show = row.style.display === 'none';\
+  row.style.display = show ? 'flex' : 'none';\
+  if (show) document.getElementById('replyBcc').focus();\
+\}\
+\
+// \uc0\u9472 \u9472  \u26410 \u35501 \u12459 \u12454 \u12531 \u12488 \u26356 \u26032  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function refreshLabelCounts() \{\
+  google.script.run\
+    .withSuccessHandler(updateLabelBadges)\
+    .withFailureHandler(function() \{\})\
+    .getLabelCounts();\
+\}\
+function updateLabelBadges(counts) \{\
+  if (!counts) return;\
+  document.querySelectorAll('.lbl-badge').forEach(function(b) \{ b.remove(); \});\
+  for (var id in counts) \{\
+    var count = counts[id];\
+    if (!count || count <= 0) continue;\
+    var safeId = 'lbl_' + id.replace(/[^a-z0-9]/gi, '_');\
+    var lbl = document.getElementById(safeId);\
+    if (!lbl) continue;\
+    var badge = document.createElement('span');\
+    badge.className = 'lbl-badge';\
+    badge.textContent = count > 99 ? '99+' : String(count);\
+    lbl.appendChild(badge);\
+  \}\
+  var inbox = counts['INBOX'] || 0;\
+  document.title = inbox > 0 ? '(' + inbox + ') Gmail AI Assistant' : 'Gmail AI Assistant';\
+\}\
+\
+// \uc0\u9472 \u9472  \u19968 \u35239 \u12363 \u12425 \u26082 \u35501 /\u26410 \u35501  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function markItemRead(threadId, idx, btn) \{\
+  var item = document.getElementById('t-item-' + idx);\
+  if (!item || !item.classList.contains('unread')) return;\
+  item.classList.remove('unread');\
+  item.classList.add('read');\
+  btn.title = '\uc0\u26410 \u35501 \u12395 \u12377 \u12427 ';\
+  btn.querySelector('.material-icons').textContent = 'mark_email_unread';\
+  btn.onclick = function(e) \{ e.stopPropagation(); markItemUnread(threadId, idx, btn); \};\
+  google.script.run\
+    .withSuccessHandler(function() \{ refreshLabelCounts(); \})\
+    .withFailureHandler(errHandler)\
+    .markThreadRead(threadId);\
+\}\
+function markItemUnread(threadId, idx, btn) \{\
+  var item = document.getElementById('t-item-' + idx);\
+  if (!item || !item.classList.contains('read')) return;\
+  item.classList.remove('read');\
+  item.classList.add('unread');\
+  btn.title = '\uc0\u26082 \u35501 \u12395 \u12377 \u12427 ';\
+  btn.querySelector('.material-icons').textContent = 'drafts';\
+  btn.onclick = function(e) \{ e.stopPropagation(); markItemRead(threadId, idx, btn); \};\
+  google.script.run\
+    .withSuccessHandler(function() \{ refreshLabelCounts(); \})\
+    .withFailureHandler(errHandler)\
+    .markThreadUnread(threadId);\
+\}\
+function doMarkUnread() \{\
+  if (!S.thread) return;\
+  var btn = document.getElementById('markUnreadBtn');\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u26410 \u35501 \u12395 \u12375 \u12414 \u12375 \u12383 ');\
+      var item = document.getElementById('t-item-' + S.thread.idx);\
+      if (item) \{ item.classList.remove('read'); item.classList.add('unread'); \}\
+      if (btn) \{\
+        btn.title = '\uc0\u26082 \u35501 \u12395 \u12377 \u12427 ';\
+        btn.querySelector('.material-icons').textContent = 'drafts';\
+        btn.onclick = doMarkRead;\
+      \}\
+      refreshLabelCounts();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .markThreadUnread(S.thread.id);\
+\}\
+function doMarkRead() \{\
+  if (!S.thread) return;\
+  var btn = document.getElementById('markUnreadBtn');\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u26082 \u35501 \u12395 \u12375 \u12414 \u12375 \u12383 ');\
+      var item = document.getElementById('t-item-' + S.thread.idx);\
+      if (item) \{ item.classList.remove('unread'); item.classList.add('read'); \}\
+      if (btn) \{\
+        btn.title = '\uc0\u26410 \u35501 \u12395 \u12377 \u12427 ';\
+        btn.querySelector('.material-icons').textContent = 'mark_email_unread';\
+        btn.onclick = doMarkUnread;\
+      \}\
+      refreshLabelCounts();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .markThreadRead(S.thread.id);\
+\}\
+\
+// \uc0\u9472 \u9472  \u12490 \u12499 \u12466 \u12540 \u12471 \u12519 \u12531 \u12475 \u12463 \u12471 \u12519 \u12531  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function buildSection(id, title, labels, collapsed, withManage) \{\
+  var hdCls   = 'nav-section-hd'   + (collapsed ? ' collapsed' : '');\
+  var bodyCls = 'nav-section-body' + (collapsed ? ' collapsed' : '');\
+  var html = '<div class="nav-section" id="sec-' + id + '">';\
+  html += '<div class="' + hdCls + '" onclick="toggleSection(\\'' + id + '\\')">' +\
+    '<span class="lbl-name">' + title + '</span>' +\
+    '<span class="material-icons sec-chevron">expand_more</span></div>';\
+  html += '<div class="' + bodyCls + '" id="sec-body-' + id + '">';\
+  labels.forEach(function(l) \{\
+    html += lblHtml(l.id, l.name, l.icon, l.id === S.label, withManage);\
+  \});\
+  if (withManage) \{\
+    html += '<div class="lbl" onclick="doAddLabel()" style="color:var(--blue)">' +\
+      '<span class="material-icons" style="color:var(--blue);font-size:20px">add</span>' +\
+      '<span class="lbl-name">\uc0\u26032 \u12375 \u12356 \u12521 \u12505 \u12523 \u12434 \u20316 \u25104 </span></div>';\
+  \}\
+  html += '</div></div>';\
+  return html;\
+\}\
+function toggleSection(id) \{\
+  var hd   = document.querySelector('#sec-' + id + ' .nav-section-hd');\
+  var body = document.getElementById('sec-body-' + id);\
+  if (!hd || !body) return;\
+  hd.classList.toggle('collapsed');\
+  body.classList.toggle('collapsed');\
+\}\
+function doAddLabel() \{\
+  var name = prompt('\uc0\u26032 \u12375 \u12356 \u12521 \u12505 \u12523 \u21517 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 :');\
+  if (!name || !name.trim()) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  \u12521 \u12505 \u12523 \u12300 ' + name.trim() + '\u12301 \u12434 \u20316 \u25104 \u12375 \u12414 \u12375 \u12383 ');\
+      loadLabels();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .createLabel(name.trim());\
+\}\
+function doRenameLabel(oldName) \{\
+  var newName = prompt('\uc0\u26032 \u12375 \u12356 \u12521 \u12505 \u12523 \u21517 :', oldName);\
+  if (!newName || !newName.trim() || newName.trim() === oldName) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  \u12521 \u12505 \u12523 \u21517 \u12434 \u22793 \u26356 \u12375 \u12414 \u12375 \u12383 '); loadLabels();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .renameLabel(oldName, newName.trim());\
+\}\
+function doDeleteLabel(name) \{\
+  if (!confirm('\uc0\u12521 \u12505 \u12523 \u12300 ' + name + '\u12301 \u12434 \u21066 \u38500 \u12375 \u12414 \u12377 \u12363 \u65311 \\n\u65288 \u12513 \u12540 \u12523 \u33258 \u20307 \u12399 \u21066 \u38500 \u12373 \u12428 \u12414 \u12379 \u12435 \u65289 ')) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  \u12521 \u12505 \u12523 \u12434 \u21066 \u38500 \u12375 \u12414 \u12375 \u12383 '); loadLabels();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .deleteLabel(name);\
+\}\
+\
+// \uc0\u9472 \u9472  \u26032 \u35215 \u20316 \u25104 AI \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+var cwModel = 'gemini-2.5-flash';\
+\
+function toggleCwAI() \{\
+  document.getElementById('cwAiPanel').classList.toggle('open');\
+  var panel = document.getElementById('cwAiPanel');\
+  if (panel.classList.contains('open') && cwModel.indexOf('gemini') === 0) \{\
+    if (_quotaCache) renderQuota(_quotaCache);\
+    else refreshQuota();\
+  \}\
+\}\
+function cwPickModel(btn) \{\
+  document.querySelectorAll('#cwModelRow .model-chip').forEach(function(b) \{ b.classList.remove('on'); \});\
+  btn.classList.add('on');\
+  cwModel = btn.dataset.m;\
+  var bar = document.getElementById('cwQuotaBar');\
+  if (cwModel.indexOf('gemini') === 0) \{\
+    if (bar) bar.style.display = '';\
+    if (_quotaCache) renderQuota(_quotaCache);\
+    else refreshQuota();\
+  \} else \{\
+    if (bar) bar.style.display = 'none';\
+  \}\
+\}\
+function doCwGenerate() \{\
+  var to      = document.getElementById('cwTo').value.trim();\
+  var subject = document.getElementById('cwSubject').value.trim();\
+  var req     = document.getElementById('cwAiReq').value.trim();\
+  var btn     = document.getElementById('cwAiGenBtn');\
+  btn.disabled = true;\
+  btn.innerHTML = '<div class="spinner sm"></div>&nbsp;\uc0\u29983 \u25104 \u20013 ...';\
+  document.getElementById('cwAiResult').className  = 'ai-result';\
+  document.getElementById('cwAiActions').className = 'ai-actions';\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">auto_awesome</span> \uc0\u26412 \u25991 \u12434 \u29983 \u25104 ';\
+      if (r.error) \{\
+        document.getElementById('cwAiResult').textContent = '\uc0\u10060  ' + r.error;\
+        document.getElementById('cwAiResult').className   = 'ai-result show';\
+        return;\
+      \}\
+      document.getElementById('cwAiResult').textContent = r.reply;\
+      document.getElementById('cwAiResult').className   = 'ai-result show';\
+      document.getElementById('cwAiActions').className  = 'ai-actions show';\
+    \})\
+    .withFailureHandler(function(e) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">auto_awesome</span> \uc0\u26412 \u25991 \u12434 \u29983 \u25104 ';\
+      errHandler(e);\
+    \})\
+    .generateAiCompose(to, subject, req, cwModel);\
+\}\
+function cwUseResult() \{\
+  var txt = document.getElementById('cwAiResult').textContent;\
+  var div = document.getElementById('cwBody');\
+  div.innerHTML = escH(txt).replace(/\\n/g, '<br>');\
+  document.getElementById('cwAiPanel').classList.remove('open');\
+  div.focus();\
+  snack('\uc0\u9989  AI\u29983 \u25104 \u25991 \u12434 \u25407 \u20837 \u12375 \u12414 \u12375 \u12383 ');\
+\}\
+\
+// \uc0\u9472 \u9472  \u12463 \u12457 \u12540 \u12479 \u31649 \u29702  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+var _quotaCache   = null;\
+var _quotaLoading = false;\
+\
+function refreshQuota() \{\
+  if (_quotaLoading) return;\
+  _quotaLoading = true;\
+  google.script.run\
+    .withSuccessHandler(function(q) \{\
+      _quotaLoading = false; _quotaCache = q; renderQuota(q);\
+    \})\
+    .withFailureHandler(function() \{ _quotaLoading = false; \})\
+    .getGeminiQuotaInfo();\
+\}\
+function renderQuota(q) \{\
+  _applyQuotaUI('quotaBar',   'quotaFill',   'quotaText',   'quotaDetail',   q);\
+  _applyQuotaUI('cwQuotaBar', 'cwQuotaFill', 'cwQuotaText', 'cwQuotaDetail', q);\
+\}\
+function _applyQuotaUI(barId, fillId, textId, detailId, q) \{\
+  var bar    = document.getElementById(barId);\
+  var fill   = document.getElementById(fillId);\
+  var text   = document.getElementById(textId);\
+  var detail = document.getElementById(detailId);\
+  if (!bar) return;\
+  if (!q || q.error) \{ bar.style.display = 'none'; return; \}\
+  bar.style.display = '';\
+  var pct = Math.min(100, Math.round(q.pct));\
+  fill.style.width = pct + '%';\
+  fill.classList.remove('warn','crit');\
+  if (pct >= 90) fill.classList.add('crit');\
+  else if (pct >= 70) fill.classList.add('warn');\
+  var remaining = Math.max(0, 100 - pct);\
+  text.textContent = 'Gemini \uc0\u28961 \u26009 \u26528 : \u27531 \u12426  ' + remaining + '%';\
+  var parts = [];\
+  if (q.used  != null) parts.push('\uc0\u20351 \u29992 : ' + q.used  + ' \u12522 \u12463 \u12456 \u12473 \u12488 ');\
+  if (q.limit != null) parts.push('\uc0\u19978 \u38480 : ' + q.limit + ' \u12522 \u12463 \u12456 \u12473 \u12488 /\u26085 ');\
+  if (q.resetMin != null && q.resetMin > 0) \{\
+    var h = Math.floor(q.resetMin / 60);\
+    var m = q.resetMin % 60;\
+    parts.push('\uc0\u12522 \u12475 \u12483 \u12488 \u12414 \u12391 : ' + (h > 0 ? h + '\u26178 \u38291 ' : '') + m + '\u20998 ');\
+  \}\
+  detail.textContent = parts.join(' \uc0\u65295  ');\
+\}\
+\
+var _origPickModel = pickModel;\
+pickModel = function(btn) \{\
+  _origPickModel(btn);\
+  var m = btn.dataset.m;\
+  var bar = document.getElementById('quotaBar');\
+  if (m && m.indexOf('gemini') === 0) \{\
+    if (bar) bar.style.display = '';\
+    if (_quotaCache) renderQuota(_quotaCache);\
+    else refreshQuota();\
+  \} else \{\
+    if (bar) bar.style.display = 'none';\
+  \}\
+\};\
+\
+var _origToggleAI = toggleAI;\
+toggleAI = function() \{\
+  // \uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u12497 \u12493 \u12523 \u12434 \u38281 \u12376 \u12427 \
+  document.getElementById('calPanel').classList.remove('open');\
+  _origToggleAI();\
+  var panel = document.getElementById('aiPanel');\
+  if (panel && panel.classList.contains('open') && S.model.indexOf('gemini') === 0) \{\
+    if (_quotaCache) renderQuota(_quotaCache);\
+    else refreshQuota();\
+  \}\
+\};\
+\
+// \uc0\u9472 \u9472  \u36899 \u32097 \u20808 \u12458 \u12540 \u12488 \u12467 \u12531 \u12503 \u12522 \u12540 \u12488  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+var acCache   = null;\
+var acLoading = false;\
+var acTimers  = \{\};\
+\
+function preloadContacts() \{\
+  if (acCache !== null || acLoading) return;\
+  acLoading = true;\
+  google.script.run\
+    .withSuccessHandler(function(list) \{ acCache = list || []; acLoading = false; \})\
+    .withFailureHandler(function()     \{ acCache = [];          acLoading = false; \})\
+    .getContactSuggestions('');\
+\}\
+function acInput(inputId, dropId) \{\
+  clearTimeout(acTimers[inputId]);\
+  var q     = document.getElementById(inputId).value;\
+  var parts = q.split(',');\
+  var cur   = parts[parts.length - 1].trim();\
+  if (!cur) \{ acHide(dropId); return; \}\
+  acTimers[inputId] = setTimeout(function() \{ acSearch(cur, dropId, inputId); \}, 180);\
+\}\
+function acSearch(query, dropId, inputId) \{\
+  var drop = document.getElementById(dropId);\
+  if (acCache !== null) \{\
+    var filtered = acCache.filter(function(c) \{\
+      var q = query.toLowerCase();\
+      return c.email.toLowerCase().indexOf(q) >= 0 ||\
+             (c.name && c.name.toLowerCase().indexOf(q) >= 0);\
+    \}).slice(0, 10);\
+    acRender(filtered, dropId, inputId, query);\
+  \} else \{\
+    drop.innerHTML = '<div class="ac-loading"><div class="spinner sm"></div>\uc0\u26908 \u32034 \u20013 ...</div>';\
+    drop.classList.add('open');\
+    google.script.run\
+      .withSuccessHandler(function(list) \{ acCache = list || []; acRender(list, dropId, inputId, query); \})\
+      .withFailureHandler(function() \{ acHide(dropId); \})\
+      .getContactSuggestions(query);\
+  \}\
+\}\
+function acRender(list, dropId, inputId, query) \{\
+  var drop = document.getElementById(dropId);\
+  if (!list || !list.length) \{\
+    drop.innerHTML = '<div class="ac-empty">\uc0\u20505 \u35036 \u12394 \u12375 </div>';\
+    drop.classList.add('open'); return;\
+  \}\
+  var html = '';\
+  list.forEach(function(c) \{\
+    var init  = (c.name || c.email).charAt(0).toUpperCase();\
+    var color = 'c' + (hashStr(c.email) % 8);\
+    var disp  = c.name\
+      ? '<div class="ac-name">' + escH(c.name) + '</div><div class="ac-email">' + escH(c.email) + '</div>'\
+      : '<div class="ac-name">' + escH(c.email) + '</div>';\
+    html += '<div class="ac-item" data-email="' + escH(c.email) + '" data-name="' + escH(c.name || '') + '" ' +\
+      'onmousedown="acSelect(event,\\'' + inputId + '\\',\\'' + dropId + '\\')">' +\
+      '<div class="ac-av ' + color + '">' + escH(init) + '</div>' +\
+      '<div class="ac-info">' + disp + '</div></div>';\
+  \});\
+  drop.innerHTML = html;\
+  drop.classList.add('open');\
+\}\
+function acSelect(e, inputId, dropId) \{\
+  e.preventDefault();\
+  var item      = e.currentTarget;\
+  var email     = item.dataset.email;\
+  var name      = item.dataset.name;\
+  var formatted = name ? name + ' <' + email + '>' : email;\
+  var input     = document.getElementById(inputId);\
+  var parts     = input.value.split(',');\
+  parts[parts.length - 1] = ' ' + formatted;\
+  input.value = parts.join(',').replace(/^,?\\s*/,'') + ', ';\
+  acHide(dropId);\
+  input.focus();\
+\}\
+function acBlur(dropId)  \{ setTimeout(function() \{ acHide(dropId); \}, 200); \}\
+function acHide(dropId) \{\
+  var drop = document.getElementById(dropId);\
+  if (drop) \{ drop.classList.remove('open'); drop.innerHTML = ''; \}\
+\}\
+function acKeydown(e, inputId, dropId) \{\
+  var drop  = document.getElementById(dropId);\
+  if (!drop.classList.contains('open')) return;\
+  var items = drop.querySelectorAll('.ac-item');\
+  var cur   = drop.querySelector('.ac-item.focused');\
+  var idx   = -1;\
+  items.forEach(function(el, i) \{ if (el === cur) idx = i; \});\
+  if (e.key === 'ArrowDown') \{\
+    e.preventDefault();\
+    if (cur) cur.classList.remove('focused');\
+    var next = items[Math.min(idx + 1, items.length - 1)];\
+    if (next) next.classList.add('focused');\
+  \} else if (e.key === 'ArrowUp') \{\
+    e.preventDefault();\
+    if (cur) cur.classList.remove('focused');\
+    var prev = items[Math.max(idx - 1, 0)];\
+    if (prev) prev.classList.add('focused');\
+  \} else if (e.key === 'Enter' && cur) \{\
+    e.preventDefault();\
+    cur.dispatchEvent(new MouseEvent('mousedown', \{ bubbles: true \}));\
+  \} else if (e.key === 'Escape') \{\
+    acHide(dropId);\
+  \}\
+\}\
+\
+// \uc0\u9472 \u9472  \u12518 \u12540 \u12486 \u12451 \u12522 \u12486 \u12451  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function insertSignature(targetId) \{\
+  google.script.run\
+    .withSuccessHandler(function(sig) \{\
+      if (!sig) \{ snack('\uc0\u32626 \u21517 \u12364 \u35373 \u23450 \u12373 \u12428 \u12390 \u12356 \u12414 \u12379 \u12435 \u12290 \u9881 \u65039 \u35373 \u23450 \u12363 \u12425 \u30331 \u37682 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+      var div = document.getElementById(targetId);\
+      div.focus();\
+      // \uc0\u12459 \u12540 \u12477 \u12523 \u12434 \u26411 \u23614 \u12395 \u31227 \u21205 \u12375 \u12390 \u32626 \u21517 \u12434 \u25407 \u20837 \
+      var sigHtml = '<br><br>--<br>' + escH(sig).replace(/\\n/g, '<br>');\
+      document.execCommand('insertHTML', false, sigHtml);\
+      // \uc0\u25407 \u20837 \u24460 \u12459 \u12540 \u12477 \u12523 \u12434 \u26411 \u23614 \u12408 \
+      var range = document.createRange();\
+      range.selectNodeContents(div);\
+      range.collapse(false);\
+      var sel = window.getSelection();\
+      sel.removeAllRanges();\
+      sel.addRange(range);\
+    \})\
+    .withFailureHandler(errHandler)\
+    .getSignature();\
+\}\
+function escH(s) \{\
+  if (s == null) return '';\
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');\
+\}\
+function escJ(s) \{\
+  if (s == null) return '';\
+  return String(s).replace(/\\\\/g,'\\\\\\\\').replace(/'/g,"\\\\'").replace(/\\n/g,'\\\\n');\
+\}\
+function senderName(from) \{\
+  if (!from) return '';\
+  var m = from.match(/^"?([^"<]+?)"?\\s*(?:<|$)/);\
+  return m ? m[1].trim() : from;\
+\}\
+function hashStr(s) \{\
+  var h = 0;\
+  for (var i = 0; i < (s || '').length; i++) \{\
+    h = ((h << 5) - h + s.charCodeAt(i)) | 0;\
+  \}\
+  return Math.abs(h);\
+\}\
+function snack(msg) \{\
+  var el = document.getElementById('snack');\
+  el.textContent = msg;\
+  el.classList.add('show');\
+  clearTimeout(snack._t);\
+  snack._t = setTimeout(function() \{ el.classList.remove('show'); \}, 3500);\
+\}\
+function errHandler(e) \{\
+  console.error(e);\
+  snack('\uc0\u9888  ' + (e.message || String(e)));\
+\}\
+\
+function urCheckAll(cb) \{\
+  document.querySelectorAll('.ur-cb').forEach(function(c) \{ c.checked = cb.checked; \});\
+  updateUrBulkActions();\
+\}\
+\
+function updateUrBulkActions() \{\
+  var checked = document.querySelectorAll('.ur-cb:checked');\
+  var bar = document.getElementById('urBulkActions');\
+  var cnt = document.getElementById('urBulkCount');\
+  var cbAll = document.getElementById('urCbAll');\
+  if (checked.length > 0) \{\
+    bar.style.display = 'flex';\
+    cnt.textContent = checked.length + '\uc0\u20214 ';\
+  \} else \{\
+    bar.style.display = 'none';\
+    if (cbAll) cbAll.checked = false;\
+  \}\
+\}\
+\
+function getCheckedUrIds() \{\
+  var ids = [];\
+  document.querySelectorAll('.ur-cb:checked').forEach(function(cb) \{\
+    ids.push(cb.getAttribute('data-tid'));\
+  \});\
+  return ids;\
+\}\
+\
+function doUrBulkNotNeeded() \{\
+  var ids = getCheckedUrIds();\
+  if (!ids.length) return;\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      if (r.error) \{ snack('\uc0\u12456 \u12521 \u12540 : ' + r.error); return; \}\
+      snack('\uc0\u9989  ' + ids.length + '\u20214 \u12434 \u36820 \u20449 \u19981 \u35201 \u12395 \u12375 \u12414 \u12375 \u12383 ');\
+      ids.forEach(function(id) \{ updateThreadStatusIcon(id, 'not-needed'); \});\
+      loadUnreplied();\
+    \})\
+    .withFailureHandler(errHandler)\
+    .bulkMarkNotNeeded(ids);\
+\}\
+\
+// ================================================================\
+// \uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u30331 \u37682 \
+// ================================================================\
+function toggleCal() \{\
+  // AI\uc0\u12497 \u12493 \u12523 \u12434 \u38281 \u12376 \u12427 \
+  document.getElementById('aiPanel').classList.remove('open');\
+  var panel = document.getElementById('calPanel');\
+  panel.classList.toggle('open');\
+  if (panel.classList.contains('open')) \{\
+    loadCalendarsIfNeeded();\
+  \}\
+\}\
+\
+function loadCalendarsIfNeeded() \{\
+  var sel = document.getElementById('calSelect');\
+  if (sel.dataset.loaded) return;\
+  sel.innerHTML = '<option value="">\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</option>';\
+  google.script.run\
+    .withSuccessHandler(function(result) \{\
+      if (!result || result.error) \{\
+        snack('\uc0\u9888  \u12459 \u12524 \u12531 \u12480 \u12540 \u21462 \u24471 \u22833 \u25943 \u12290 \u12473 \u12463 \u12522 \u12503 \u12488 \u12456 \u12487 \u12451 \u12479 \u12391  getCalendarList \u12434 \u19968 \u24230 \u25163 \u21205 \u23455 \u34892 \u12375 \u12289 \u12459 \u12524 \u12531 \u12480 \u12540 \u12398 \u27177 \u38480 \u12434 \u25215 \u35469 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 \u12290 ');\
+        sel.innerHTML = '<option value="primary">\uc0\u12513 \u12452 \u12531 \u12459 \u12524 \u12531 \u12480 \u12540 </option>';\
+        sel.dataset.loaded = '1';\
+        return;\
+      \}\
+      sel.innerHTML = result.map(function(c) \{\
+        return '<option value="' + escH(c.id) + '">' + escH(c.name) + '</option>';\
+      \}).join('');\
+      sel.dataset.loaded = '1';\
+    \})\
+    .withFailureHandler(function(e) \{\
+      snack('\uc0\u9888  \u12459 \u12524 \u12531 \u12480 \u12540 \u19968 \u35239 \u12398 \u21462 \u24471 \u12395 \u22833 \u25943 : ' + (e.message || e));\
+      sel.innerHTML = '<option value="primary">\uc0\u12513 \u12452 \u12531 \u12459 \u12524 \u12531 \u12480 \u12540 </option>';\
+      sel.dataset.loaded = '1';\
+    \})\
+    .getCalendarList();\
+\}\
+\
+function doExtractEvent() \{\
+  if (!S.thread || !S.thread.data) \{ snack('\uc0\u12513 \u12540 \u12523 \u12434 \u38283 \u12356 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+  var msgs  = S.thread.data.messages;\
+  var plain = msgs[msgs.length - 1].plain || '';\
+  var model = S.model;\
+\
+  var btn = document.getElementById('calExtractBtn');\
+  btn.disabled = true;\
+  btn.innerHTML = '<div class="spinner sm"></div>&nbsp;\uc0\u25277 \u20986 \u20013 ...';\
+\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">auto_awesome</span>AI\uc0\u12391 \u12513 \u12540 \u12523 \u12363 \u12425 \u26085 \u31243 \u12434 \u25277 \u20986 ';\
+      if (r.error) \{ snack('\uc0\u10060  ' + r.error); return; \}\
+      var ev = r.event || \{\};\
+      document.getElementById('calTitle').value    = ev.title     || '';\
+      document.getElementById('calDate').value     = ev.date      || '';\
+      document.getElementById('calStart').value    = ev.startTime || '';\
+      document.getElementById('calEnd').value      = ev.endTime   || '';\
+      document.getElementById('calLocation').value = ev.location  || '';\
+      document.getElementById('calNotes').value    = ev.notes     || '';\
+      document.getElementById('calForm').classList.add('open');\
+      loadCalendarsIfNeeded();\
+    \})\
+    .withFailureHandler(function(e) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">auto_awesome</span>AI\uc0\u12391 \u12513 \u12540 \u12523 \u12363 \u12425 \u26085 \u31243 \u12434 \u25277 \u20986 ';\
+      errHandler(e);\
+    \})\
+    .extractCalendarEvent(plain, model);\
+\}\
+\
+function doSaveCalendar() \{\
+  var title = document.getElementById('calTitle').value.trim();\
+  var date  = document.getElementById('calDate').value.trim();\
+  if (!title) \{ snack('\uc0\u12479 \u12452 \u12488 \u12523 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 '); return; \}\
+  if (!date)  \{ snack('\uc0\u26085 \u20184 \u12434 \u20837 \u21147 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 ');     return; \}\
+\
+  var btn = document.getElementById('calSaveBtn');\
+  btn.disabled = true;\
+  btn.innerHTML = '<div class="spinner sm"></div>&nbsp;\uc0\u30331 \u37682 \u20013 ...';\
+\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">check</span>\uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u12395 \u30331 \u37682 ';\
+      if (r.error) \{ snack('\uc0\u10060  ' + r.error); return; \}\
+      snack('\uc0\u9989  \u12459 \u12524 \u12531 \u12480 \u12540 \u12395 \u30331 \u37682 \u12375 \u12414 \u12375 \u12383 ');\
+      document.getElementById('calPanel').classList.remove('open');\
+      document.getElementById('calForm').classList.remove('open');\
+    \})\
+    .withFailureHandler(function(e) \{\
+      btn.disabled = false;\
+      btn.innerHTML = '<span class="material-icons">check</span>\uc0\u12459 \u12524 \u12531 \u12480 \u12540 \u12395 \u30331 \u37682 ';\
+      errHandler(e);\
+    \})\
+    .saveToCalendar(\{\
+      calendarId: document.getElementById('calSelect').value,\
+      title:      title,\
+      date:       date,\
+      startTime:  document.getElementById('calStart').value.trim(),\
+      endTime:    document.getElementById('calEnd').value.trim(),\
+      location:   document.getElementById('calLocation').value.trim(),\
+      notes:      document.getElementById('calNotes').value.trim(),\
+    \});\
+\}\
+\
+// \uc0\u9472 \u9472  \u28155 \u20184 \u12501 \u12449 \u12452 \u12523 \u12398 \u12480 \u12454 \u12531 \u12525 \u12540 \u12489  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+function downloadAttachment(threadId, msgIndex, attachIndex, chipEl) \{\
+  if (chipEl.classList.contains('loading')) return;\
+  chipEl.classList.add('loading');\
+  var icon = chipEl.querySelector('.material-icons');\
+  var origIcon = icon.textContent;\
+  icon.textContent = 'hourglass_empty';\
+\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      chipEl.classList.remove('loading');\
+      icon.textContent = origIcon;\
+      if (r.error) \{ snack('\uc0\u10060  ' + r.error); return; \}\
+\
+      // Base64 \uc0\u8594  Blob \u8594  \u12480 \u12454 \u12531 \u12525 \u12540 \u12489 \
+      var binary = atob(r.data);\
+      var bytes  = new Uint8Array(binary.length);\
+      for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);\
+      var blob = new Blob([bytes], \{ type: r.mimeType \});\
+      var url  = URL.createObjectURL(blob);\
+      var a    = document.createElement('a');\
+      a.href   = url;\
+      a.download = r.name;\
+      document.body.appendChild(a);\
+      a.click();\
+      document.body.removeChild(a);\
+      setTimeout(function() \{ URL.revokeObjectURL(url); \}, 10000);\
+    \})\
+    .withFailureHandler(function(e) \{\
+      chipEl.classList.remove('loading');\
+      icon.textContent = origIcon;\
+      errHandler(e);\
+    \})\
+    .getAttachmentData(threadId, msgIndex, attachIndex);\
+\}\
+\
+// MIME \uc0\u12479 \u12452 \u12503 \u12395 \u24540 \u12376 \u12383 \u12450 \u12452 \u12467 \u12531 \u12434 \u36820 \u12377 \
+function getAttachIcon(mimeType) \{\
+  if (!mimeType) return 'attach_file';\
+  if (mimeType.indexOf('image/')       === 0) return 'image';\
+  if (mimeType.indexOf('video/')       === 0) return 'videocam';\
+  if (mimeType.indexOf('audio/')       === 0) return 'audiotrack';\
+  if (mimeType === 'application/pdf')         return 'picture_as_pdf';\
+  if (mimeType.indexOf('spreadsheet')  >= 0)  return 'table_chart';\
+  if (mimeType.indexOf('presentation') >= 0)  return 'slideshow';\
+  if (mimeType.indexOf('word')         >= 0 ||\
+      mimeType.indexOf('document')     >= 0)  return 'description';\
+  if (mimeType.indexOf('zip')          >= 0 ||\
+      mimeType.indexOf('compressed')   >= 0)  return 'folder_zip';\
+  if (mimeType.indexOf('text/')        === 0)  return 'article';\
+  return 'attach_file';\
+\}\
+\
+// \uc0\u9472 \u9472  \u28155 \u20184 \u12501 \u12449 \u12452 \u12523 \u12503 \u12524 \u12499 \u12517 \u12540  \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \
+var _previewBlob = null;  // \uc0\u12514 \u12540 \u12480 \u12523 \u12434 \u38283 \u12356 \u12390 \u12356 \u12427 \u38291 \u12289 Blob\u12434 \u20445 \u25345 \u12377 \u12427 \
+\
+function previewAttachment(threadId, msgIndex, attachIndex, chipEl) \{\
+  if (chipEl.classList.contains('loading')) return;\
+  chipEl.classList.add('loading');\
+  var origIcon = chipEl.querySelector('.material-icons').textContent;\
+  chipEl.querySelector('.material-icons').textContent = 'hourglass_empty';\
+\
+  // \uc0\u12514 \u12540 \u12480 \u12523 \u12434 \u12525 \u12540 \u12487 \u12451 \u12531 \u12464 \u29366 \u24907 \u12391 \u20808 \u12395 \u38283 \u12367 \
+  _openPreviewModal('\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...', '', null, null);\
+\
+  google.script.run\
+    .withSuccessHandler(function(r) \{\
+      chipEl.classList.remove('loading');\
+      chipEl.querySelector('.material-icons').textContent = origIcon;\
+\
+      if (r.error) \{\
+        closePreview();\
+        snack('\uc0\u10060  ' + r.error);\
+        return;\
+      \}\
+      _renderPreview(r);\
+    \})\
+    .withFailureHandler(function(e) \{\
+      chipEl.classList.remove('loading');\
+      chipEl.querySelector('.material-icons').textContent = origIcon;\
+      closePreview();\
+      errHandler(e);\
+    \})\
+    .getAttachmentData(threadId, msgIndex, attachIndex);\
+\}\
+\
+function _openPreviewModal(filename, filesize, mimeType, blobUrl) \{\
+  var overlay = document.getElementById('previewOverlay');\
+  document.getElementById('previewFilename').textContent = filename;\
+  document.getElementById('previewFilesize').textContent = filesize || '';\
+  var iconEl = document.getElementById('previewIcon');\
+  if (mimeType) iconEl.textContent = getAttachIcon(mimeType);\
+\
+  overlay.classList.add('open');\
+\
+  // ESC\uc0\u12461 \u12540 \u12391 \u38281 \u12376 \u12427 \
+  document._previewEscHandler = function(e) \{\
+    if (e.key === 'Escape') closePreview();\
+  \};\
+  document.addEventListener('keydown', document._previewEscHandler);\
+\}\
+\
+function _renderPreview(r) \{\
+  // Base64 \uc0\u8594  Blob\
+  var binary = atob(r.data);\
+  var bytes  = new Uint8Array(binary.length);\
+  for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);\
+  var blob   = new Blob([bytes], \{ type: r.mimeType \});\
+  var url    = URL.createObjectURL(blob);\
+  _previewBlob = \{ url: url, name: r.name, mimeType: r.mimeType, size: bytes.length \};\
+\
+  // \uc0\u12504 \u12483 \u12480 \u12540 \u26356 \u26032 \
+  document.getElementById('previewFilename').textContent = r.name;\
+  document.getElementById('previewFilesize').textContent = fmtBytes(bytes.length);\
+  document.getElementById('previewIcon').textContent     = getAttachIcon(r.mimeType);\
+\
+  var body = document.getElementById('previewBody');\
+  var mime = r.mimeType || '';\
+\
+  if (mime.indexOf('image/') === 0) \{\
+    // \uc0\u9472 \u9472  \u30011 \u20687  \u9472 \u9472 \
+    body.innerHTML = '<img src="' + url + '" alt="' + escH(r.name) + '">';\
+\
+  \} else if (mime === 'application/pdf') \{\
+    // \uc0\u9472 \u9472  PDF \u9472 \u9472 \
+    body.innerHTML = '<embed src="' + url + '#toolbar=1" type="application/pdf">';\
+\
+  \} else if (mime.indexOf('text/') === 0) \{\
+    // \uc0\u9472 \u9472  \u12486 \u12461 \u12473 \u12488  \u9472 \u9472 \
+    var reader = new FileReader();\
+    body.innerHTML = '<div class="preview-text-content" id="previewTextContent">\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</div>';\
+    reader.onload = function(e) \{\
+      var el = document.getElementById('previewTextContent');\
+      if (el) el.textContent = e.target.result;\
+    \};\
+    reader.readAsText(blob);\
+\
+  \} else if (mime.indexOf('video/') === 0) \{\
+    // \uc0\u9472 \u9472  \u21205 \u30011  \u9472 \u9472 \
+    body.innerHTML = '<video controls src="' + url + '"></video>';\
+\
+  \} else if (mime.indexOf('audio/') === 0) \{\
+    // \uc0\u9472 \u9472  \u38899 \u22768  \u9472 \u9472 \
+    body.innerHTML = '<audio controls src="' + url + '"></audio>';\
+\
+  \} else \{\
+    // \uc0\u9472 \u9472  \u12503 \u12524 \u12499 \u12517 \u12540 \u19981 \u21487 \u65288 Office \u31995 \u12394 \u12393 \u65289 \u9472 \u9472 \
+    var typeName = _getMimeLabel(mime);\
+    body.innerHTML =\
+      '<div class="preview-unsupported">' +\
+        '<span class="material-icons">' + getAttachIcon(mime) + '</span>' +\
+        '<div style="font-size:14px;font-weight:500">' + typeName + '\uc0\u12399 \u12503 \u12524 \u12499 \u12517 \u12540 \u12391 \u12365 \u12414 \u12379 \u12435 </div>' +\
+        '<div style="font-size:12px">\uc0\u12480 \u12454 \u12531 \u12525 \u12540 \u12489 \u12375 \u12390 \u38283 \u12356 \u12390 \u12367 \u12384 \u12373 \u12356 </div>' +\
+      '</div>';\
+  \}\
+\}\
+\
+function closePreview() \{\
+  var overlay = document.getElementById('previewOverlay');\
+  overlay.classList.remove('open');\
+  document.getElementById('previewBody').innerHTML =\
+    '<div class="preview-loading"><div class="spinner"></div><span>\uc0\u35501 \u12415 \u36796 \u12415 \u20013 ...</span></div>';\
+  if (document._previewEscHandler) \{\
+    document.removeEventListener('keydown', document._previewEscHandler);\
+    delete document._previewEscHandler;\
+  \}\
+  // Blob URL \uc0\u12434 \u35299 \u25918 \
+  if (_previewBlob) \{\
+    setTimeout(function() \{ URL.revokeObjectURL(_previewBlob.url); \}, 1000);\
+    _previewBlob = null;\
+  \}\
+\}\
+\
+function onPreviewOverlayClick(e) \{\
+  // \uc0\u12458 \u12540 \u12496 \u12540 \u12524 \u12452 \u65288 \u32972 \u26223 \u65289 \u12463 \u12522 \u12483 \u12463 \u12391 \u38281 \u12376 \u12427 \u12290 \u12514 \u12540 \u12480 \u12523 \u26412 \u20307 \u12463 \u12522 \u12483 \u12463 \u12399 \u38281 \u12376 \u12394 \u12356 \
+  if (e.target === document.getElementById('previewOverlay')) closePreview();\
+\}\
+\
+function downloadFromPreview() \{\
+  if (!_previewBlob) return;\
+  var a    = document.createElement('a');\
+  a.href   = _previewBlob.url;\
+  a.download = _previewBlob.name;\
+  document.body.appendChild(a);\
+  a.click();\
+  document.body.removeChild(a);\
+\}\
+\
+function _getMimeLabel(mime) \{\
+  if (!mime) return '\uc0\u12371 \u12398 \u12501 \u12449 \u12452 \u12523 ';\
+  if (mime.indexOf('spreadsheet') >= 0 || mime.indexOf('excel') >= 0) return 'Excel\uc0\u12501 \u12449 \u12452 \u12523 ';\
+  if (mime.indexOf('presentation') >= 0 || mime.indexOf('powerpoint') >= 0) return 'PowerPoint\uc0\u12501 \u12449 \u12452 \u12523 ';\
+  if (mime.indexOf('word') >= 0 || mime.indexOf('document') >= 0) return 'Word\uc0\u12501 \u12449 \u12452 \u12523 ';\
+  if (mime.indexOf('zip') >= 0 || mime.indexOf('compressed') >= 0) return 'ZIP\uc0\u12501 \u12449 \u12452 \u12523 ';\
+  return '\uc0\u12371 \u12398 \u12501 \u12449 \u12452 \u12523 \u24418 \u24335 ';\
+\}\
+</script>\
+</body>\
+</html>}
